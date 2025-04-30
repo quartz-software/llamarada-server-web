@@ -1,49 +1,25 @@
-import sequelize from "../config/db.js";
+import AdditionalService from "./additional-service";
+import Booking from "./Booking";
+import BookingRoom from "./BookingRoom";
+import Client from "./Client";
+import Employee from "./employee";
+import Payment from "./Payment";
+import PaymentDetail from "./PaymentDetail";
+import Room from "./room";
+import RoomAvailability from "./RoomAvailability";
+import RoomImage from "./RoomImage";
+import RoomPromotion from "./RoomPromotion";
+import RoomRoomPromotion from "./RoomRoomPromotion";
+import RoomRate from "./RoomRate";
+import RoomRoomRate from "./RoomRoomRate";
+import Service from "./service";
+import ServiceRoom from "./ServiceRoom";
+import Stock from "./stock";
+import StockModification from "./StockModification";
+import Task from "./Task";
+import User from "./User";
 
-import AdditionalService from "./AdditionalService.js";
-import Booking from "./Booking.js";
-import BookingRoom from "./BookingRoom.js";
-import Client from "./Client.js";
-import Employee from "./Employee.js";
-import Payment from "./Payment.js";
-import PaymentDetail from "./PaymentDetail.js";
-import Room from "./Room.js";
-import RoomAvailability from "./RoomAvailability.js";
-import RoomImage from "./RoomImage.js";
-import RoomPromotion from "./RoomPromotion.js";
-import RoomRoomPromotion from "./RoomRoomPromotion.js";
-import RoomRate from "./RoomRate.js";
-import RoomRoomRate from "./RoomRoomRate.js";
-import Service from "./Service.js";
-import ServiceRoom from "./ServiceRoom.js";
-import Stock from "./Stock.js";
-import StockModification from "./StockModification.js";
-import Task from "./Task.js";
-import User from "./User.js";
-const models = {
-  AdditionalService,
-  Booking,
-  BookingRoom,
-  Client,
-  Employee,
-  Payment,
-  PaymentDetail,
-  Room,
-  RoomAvailability,
-  RoomImage,
-  RoomPromotion,
-  RoomRoomPromotion,
-  RoomRate,
-  RoomRoomRate,
-  Service,
-  ServiceRoom,
-  Stock,
-  StockModification,
-  Task,
-  User,
-};
-
-function defineRelationships() {
+function associate() {
   // Payment: bookingId
   Booking.hasOne(Payment, {
     foreignKey: "bookingId",
@@ -238,7 +214,6 @@ function defineRelationships() {
   });
 }
 
-defineRelationships();
-export default { sequelize, models };
-export { models };
-export { sequelize };
+associate();
+export { associate };
+export default associate;

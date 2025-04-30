@@ -1,0 +1,33 @@
+import { Router } from "express";
+import auth from "./routes/auth";
+import addservices from "./routes/addservices";
+import availabilities from "./routes/availabilities";
+import bookings from "./routes/bookings";
+import clients from "./routes/clients";
+import employees from "./routes/employees";
+import images from "./routes/images";
+import promotions from "./routes/promotions";
+import rates from "./routes/rates";
+import rooms from "./routes/rooms";
+import services from "./routes/services";
+import stock from "./routes/stock";
+import tasks from "./routes/tasks";
+import authMiddleware from "./middlewares/auth";
+const router = Router();
+
+router.use(authMiddleware);
+router.use("/auth", auth);
+router.use("/addservices", addservices);
+router.use("/availabilities", availabilities);
+router.use("/bookings", bookings);
+router.use("/clients", clients);
+router.use("/employees", employees);
+router.use("/images", images);
+router.use("/promotions", promotions);
+router.use("/rates", rates);
+router.use("/rooms", rooms);
+router.use("/services", services);
+router.use("/stock", stock);
+router.use("/tasks", tasks);
+
+export default router;

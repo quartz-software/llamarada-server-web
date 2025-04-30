@@ -1,20 +1,17 @@
-import { models, sequelize } from "../models/index.js";
-const { User, Employee } = models;
+import { sequelize } from "../models/index";
+import User from "../models/user";
+import Employee from "../models/employee";
 import auth, {
   authUser,
   createToken,
   encryptPassword,
   validateToken,
 } from "../utils/auth.js";
-import isEqual from "../utils/isEqual.js";
+import isEqual from "../utils/isEqual";
+import { Request, Response } from "express";
 
-export class AuthController {
-  /**
-   *
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  static async register(req, res) {
+export default {
+  async register(req:Request, res:Response) {
     try {
       let {
         email,
@@ -31,7 +28,10 @@ export class AuthController {
       } = req.body;
 
       let user = await User.findOne({ where: { email } });
-      if (user) return res.status(400).send();
+      if (user) {
+        res.status(400).send();
+        return
+        }
 
       if (!role || (req.user && !isEqual(req.user.role, "admin")))
         role = "client";

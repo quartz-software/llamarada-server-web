@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import appConfig from "../config/app";
 
 export async function encryptPassword(password) {
   const rounds = 10;
@@ -14,7 +15,7 @@ export async function authUser(userModel, password) {
 
 export async function createToken(userModel) {
   let payload = { id: userModel.id, role: userModel.role };
-  let secret = process.env.SECRET;
+  let secret = appConfig.secret;
   let token = jwt.sign(payload, secret);
   return token;
 }

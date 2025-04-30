@@ -1,12 +1,7 @@
-import { models } from "../models/index.js";
-const { AdditionalService } = models;
-export default class AdditionalServiceController {
-  /**
-   *
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  static async findAll(req, res) {
+import { Request, Response } from "express";
+import AdditionalService from "../models/additional-service";
+export default {
+  async findAll(req: Request, res: Response) {
     try {
       const addServices = await AdditionalService.findAll({
         order: [["id", "ASC"]],
@@ -15,13 +10,8 @@ export default class AdditionalServiceController {
     } catch (e) {
       res.status(500).send();
     }
-  }
-  /**
-   *
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  static async findOne(req, res) {
+  },
+  async findOne(req: Request, res: Response) {
     try {
       const id = req.params.id;
       if (!id) return res.status(400).send();
@@ -33,13 +23,8 @@ export default class AdditionalServiceController {
     } catch (e) {
       res.status(500).send();
     }
-  }
-  /**
-   *
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  static async create(req, res) {
+  },
+  async create(req: Request, res: Response) {
     try {
       const body = req.body;
       const addService = await AdditionalService.create(body);
@@ -47,37 +32,36 @@ export default class AdditionalServiceController {
     } catch (e) {
       res.status(500).send();
     }
-  }
-  /**
-   *
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  static async update(req, res) {
+  },
+  async update(req: Request, res: Response) {
     try {
       const id = req.params.id;
-      if (!id) return res.status(400).send();
+      if (!id) {
+        res.status(400).send();
+        return;
+      }
       const body = req.body;
-      if (!body) return res.status(404).send();
+      if (!body) {
+        res.status(404).send();
+        return;
+      }
       await AdditionalService.update(body, { where: { id } });
       res.status(200).send();
     } catch (e) {
       res.status(500).send();
     }
-  }
-  /**
-   *
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  static async delete(req, res) {
+  },
+  async delete(req: Request, res: Response) {
     try {
       const id = req.params.id;
-      if (!id) return res.status(400).send();
+      if (!id) {
+        res.status(400).send();
+        return;
+      }
       await AdditionalService.destroy({ where: { id } });
       res.status(200).send();
     } catch (e) {
       res.status(500).send();
     }
-  }
-}
+  },
+};

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import AdditionalServiceController from "../controllers/AdditionalServiceController.js";
+import AdditionalServiceController from "../controllers/additional-service-controller.ts/index.js";
 const router = Router();
 
 router.get("/", AdditionalServiceController.findAll);

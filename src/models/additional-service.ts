@@ -1,8 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import { DataTypes, Model } from "sequelize";
+import { sequelize } from "./index";
 
-const AdditionalService = sequelize.define(
-  "AdditionalService",
+class AdditionalServiceSequelize extends Model {}
+
+AdditionalServiceSequelize.init(
   {
     id: {
       type: DataTypes.BIGINT,
@@ -63,9 +64,10 @@ const AdditionalService = sequelize.define(
     },
   },
   {
+    sequelize,
     tableName: "additional_services",
     timestamps: false,
   }
 );
 
-export default AdditionalService;
+export default AdditionalServiceSequelize;

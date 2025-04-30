@@ -1,8 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import { DataTypes, Model } from "sequelize";
+import sequelize from "./index";
 
-const Room = sequelize.define(
-  "Room",
+class RoomSequelize extends Model {}
+
+RoomSequelize.init(
   {
     id: {
       type: DataTypes.BIGINT,
@@ -59,9 +60,10 @@ const Room = sequelize.define(
     },
   },
   {
+    sequelize,
     tableName: "rooms",
     timestamps: false,
   }
 );
 
-export default Room;
+export default RoomSequelize;
