@@ -1,4 +1,5 @@
 import TipoRol from "./tipo-rol/migration";
+import EstadoEmpleado from "./estado-empleado/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -10,5 +11,7 @@ import appConfig from "../config/app";
   console.log("------Creando Tablas------");
   console.log("------TipoRol------");
   await TipoRol.up(qi);
+  console.log("------EstadoEmpleado------");
+  await EstadoEmpleado.up(qi);
   console.log("------Tablas Creadas------");
 })();
