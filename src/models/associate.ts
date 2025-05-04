@@ -5,6 +5,7 @@ import ModificacionStock from "./modificacion-stock/associate";
 import CategoriaStock from "./categoria-stock/associate";
 import Stock from "./stock/associate";
 import AbastecimientoStock from "./abastecimiento-stock/associate";
+import Tarea from "./tarea/associate";
 
 function associate() {
   TipoRol.associate();
@@ -14,6 +15,7 @@ function associate() {
   CategoriaStock.associate();
   Stock.associate();
   AbastecimientoStock.associate();
+  Tarea.associate();
 }
 
 associate();
