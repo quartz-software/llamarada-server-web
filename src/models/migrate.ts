@@ -7,6 +7,7 @@ import AbastecimientoStock from "./abastecimiento-stock/migration";
 import ModificacionStock from "./modificacion-stock/migration";
 import Empleado from "./empleado/migration";
 import Tarea from "./tarea/migration";
+import EstadoTarea from "./estado-tarea/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -34,5 +35,7 @@ import appConfig from "../config/app";
   await Empleado.up(qi);
   console.log("------Tarea------");
   await Tarea.up(qi);
+  console.log("------EstadoTarea------");
+  await EstadoTarea.up(qi);
   console.log("------Tablas Creadas------");
 })();
