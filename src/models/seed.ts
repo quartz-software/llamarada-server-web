@@ -5,6 +5,7 @@ import CategoriaStock from "./categoria-stock/seeder";
 import Stock from "./stock/seeder";
 import AbastecimientoStock from "./abastecimiento-stock/seeder";
 import ModificacionStock from "./modificacion-stock/seeder";
+import Empleado from "./empleado/seeder";
 import { sequelize } from "./index";
 (async () => {
   const qi = sequelize.getQueryInterface();
@@ -23,5 +24,7 @@ import { sequelize } from "./index";
   await AbastecimientoStock.seed(qi);
   console.log("------ModificacionStock------");
   await ModificacionStock.seed(qi);
+  console.log("------Empleado------");
+  await Empleado.seed(qi);
   console.log("------Tablas llenadas------");
 })();
