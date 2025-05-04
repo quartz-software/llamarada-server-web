@@ -2,6 +2,7 @@ import TipoRol from "./tipo-rol/seeder";
 import EstadoEmpleado from "./estado-empleado/seeder";
 import Usuario from "./usuario/seeder";
 import CategoriaStock from "./categoria-stock/seeder";
+import Stock from "./stock/seeder";
 import { sequelize } from "./index";
 (async () => {
   const qi = sequelize.getQueryInterface();
@@ -14,5 +15,7 @@ import { sequelize } from "./index";
   await Usuario.seed(qi);
   console.log("------CategoriaStock------");
   await CategoriaStock.seed(qi);
+  console.log("------Stock------");
+  await Stock.seed(qi);
   console.log("------Tablas llenadas------");
 })();

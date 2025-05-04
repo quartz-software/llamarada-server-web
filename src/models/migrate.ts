@@ -2,6 +2,7 @@ import TipoRol from "./tipo-rol/migration";
 import EstadoEmpleado from "./estado-empleado/migration";
 import Usuario from "./usuario/migration";
 import CategoriaStock from "./categoria-stock/migration";
+import Stock from "./stock/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -19,5 +20,7 @@ import appConfig from "../config/app";
   await Usuario.up(qi);
   console.log("------CategoriaStock------");
   await CategoriaStock.up(qi);
+  console.log("------Stock------");
+  await Stock.up(qi);
   console.log("------Tablas Creadas------");
 })();
