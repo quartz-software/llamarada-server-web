@@ -37,5 +37,7 @@ import appConfig from "../config/app";
   await Tarea.up(qi);
   console.log("------EstadoTarea------");
   await EstadoTarea.up(qi);
+  console.log("------Cliente------");
+  await Cliente.up(qi);
   console.log("------Tablas Creadas------");
 })();

@@ -7,6 +7,7 @@ import Stock from "./stock/associate";
 import AbastecimientoStock from "./abastecimiento-stock/associate";
 import Tarea from "./tarea/associate";
 import EstadoTarea from "./estado-tarea/associate";
+import Cliente from "./cliente/associate";
 
 function associate() {
   TipoRol.associate();
@@ -18,6 +19,7 @@ function associate() {
   AbastecimientoStock.associate();
   Tarea.associate();
   EstadoTarea.associate();
+  Cliente.associate();
 }
 
 associate();
