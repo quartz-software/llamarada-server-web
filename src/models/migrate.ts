@@ -4,6 +4,7 @@ import Usuario from "./usuario/migration";
 import CategoriaStock from "./categoria-stock/migration";
 import Stock from "./stock/migration";
 import AbastecimientoStock from "./abastecimiento-stock/migration";
+import ModificacionStock from "./modificacion-stock/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -23,7 +24,9 @@ import appConfig from "../config/app";
   await CategoriaStock.up(qi);
   console.log("------Stock------");
   await Stock.up(qi);
-  console.log("------Stock------");
+  console.log("------AbastecimientoStock------");
   await AbastecimientoStock.up(qi);
+  console.log("------ModificacionStock------");
+  await ModificacionStock.up(qi);
   console.log("------Tablas Creadas------");
 })();
