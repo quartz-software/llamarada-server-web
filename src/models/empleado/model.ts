@@ -17,9 +17,9 @@ class EmpleadoModel extends Model<Attr, CreationAttributes> implements Entity {
   declare fechaContratacion: Date;
   declare dni: string;
   declare nombre1: string;
-  declare nombre2: string;
+  declare nombre2?: string;
   declare apellido1: string;
-  declare apellido2: string;
+  declare apellido2?: string;
   declare telefono?: string | undefined;
 
   declare estado?: EstadoEmpleado | undefined;

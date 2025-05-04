@@ -27,7 +27,7 @@ const Attributes: SequelizeModelAttributes<
   idUsuario: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    onDelete: "RESTRICT",
+    onDelete: "CASCADE",
     references: {
       model: "usuario",
       key: "id",
@@ -56,7 +56,7 @@ const Attributes: SequelizeModelAttributes<
   },
   nombre2: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   apellido1: {
     type: DataTypes.TEXT,
@@ -64,7 +64,7 @@ const Attributes: SequelizeModelAttributes<
   },
   apellido2: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   telefono: {
     type: DataTypes.TEXT,

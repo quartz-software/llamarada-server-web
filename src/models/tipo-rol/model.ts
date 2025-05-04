@@ -18,5 +18,5 @@ TipoRolModel.init(Attributes, {
   timestamps: false,
 });
 
-export { TableName, TipoRolModel };
-export default { TableName, TipoRolModel };
+export { TipoRolModel };
+export default { TipoRolModel };

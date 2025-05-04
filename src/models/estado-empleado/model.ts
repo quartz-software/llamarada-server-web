@@ -17,5 +17,5 @@ EstadoEmpleadoModel.init(Attributes, {
   timestamps: false,
 });
 
-export { TableName, EstadoEmpleadoModel };
-export default { TableName, EstadoEmpleadoModel };
+export { EstadoEmpleadoModel };
+export default { EstadoEmpleadoModel };

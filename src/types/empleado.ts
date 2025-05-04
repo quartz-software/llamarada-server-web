@@ -13,9 +13,9 @@ export interface Empleado {
   fechaContratacion: Date;
   dni: string;
   nombre1: string;
-  nombre2: string;
+  nombre2?: string;
   apellido1: string;
-  apellido2: string;
+  apellido2?: string;
   telefono?: string;
 
   estado?: EstadoEmpleado;
