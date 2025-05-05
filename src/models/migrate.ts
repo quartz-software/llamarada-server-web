@@ -11,6 +11,7 @@ import EstadoTarea from "./estado-tarea/migration";
 import Cliente from "./cliente/migration";
 import Pago from "./pago/migration";
 import DetallePago from "./detalle-pago/migration";
+import EstadoReserva from "./estado-reserva/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -46,5 +47,7 @@ import appConfig from "../config/app";
   await Pago.up(qi);
   console.log("------DetallePago------");
   await DetallePago.up(qi);
+  console.log("------EstadoReserva------");
+  await EstadoReserva.up(qi);
   console.log("------Tablas Creadas------");
 })();

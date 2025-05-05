@@ -11,6 +11,7 @@ import EstadoTarea from "./estado-tarea/seeder";
 import Cliente from "./cliente/seeder";
 import Pago from "./pago/seeder";
 import DetallePago from "./detalle-pago/seeder";
+import EstadoReserva from "./estado-reserva/seeder";
 import { sequelize } from "./index";
 (async () => {
   const qi = sequelize.getQueryInterface();
@@ -41,5 +42,7 @@ import { sequelize } from "./index";
   await Pago.seed(qi);
   console.log("------DetallePago------");
   await DetallePago.seed(qi);
+  console.log("------EstadoReserva------");
+  await EstadoReserva.seed(qi);
   console.log("------Tablas llenadas------");
 })();
