@@ -3,7 +3,8 @@ import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
 import { Empleado } from "../../types/empleado";
-import { Servicio } from "../../types/servicio";
+import { ServicioSolicitado } from "../../types/servicio-solicitado";
+import { EstadoTarea } from "../../types/estado-tarea";
 
 class TareaModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;
@@ -17,8 +18,9 @@ class TareaModel extends Model<Attr, CreationAttributes> implements Entity {
 
   declare createdAt: Date;
 
-  declare servicio?: Servicio | undefined;
+  declare servicio?: ServicioSolicitado | undefined;
   declare empleado?: Empleado | undefined;
+  declare estado?: EstadoTarea | undefined;
 }
 
 TareaModel.init(Attributes, {

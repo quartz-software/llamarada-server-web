@@ -1,6 +1,6 @@
 import { Empleado } from "./empleado";
 import { EstadoTarea } from "./estado-tarea";
-import { Servicio } from "./servicio";
+import { ServicioSolicitado } from "./servicio-solicitado";
 
 export interface Tarea {
   id: number;
@@ -14,6 +14,6 @@ export interface Tarea {
   createdAt: Date;
 
   estado?: EstadoTarea;
-  servicio?: Servicio;
+  servicio?: ServicioSolicitado;
   empleado?: Empleado;
 }
