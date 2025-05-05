@@ -8,6 +8,8 @@ import ModificacionStock from "./modificacion-stock/migration";
 import Empleado from "./empleado/migration";
 import Tarea from "./tarea/migration";
 import EstadoTarea from "./estado-tarea/migration";
+import Cliente from "./cliente/migration";
+import Pago from "./pago/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -39,5 +41,7 @@ import appConfig from "../config/app";
   await EstadoTarea.up(qi);
   console.log("------Cliente------");
   await Cliente.up(qi);
+  console.log("------Pago------");
+  await Pago.up(qi);
   console.log("------Tablas Creadas------");
 })();
