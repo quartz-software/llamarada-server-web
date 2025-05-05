@@ -12,6 +12,7 @@ import Pago from "./pago/associate";
 import DetallePago from "./detalle-pago/associate";
 import EstadoReserva from "./estado-reserva/associate";
 import Reserva from "./reserva/associate";
+import ReservaHabitacion from "./reserva-habitacion/associate";
 
 function associate() {
   TipoRol.associate();
@@ -28,6 +29,7 @@ function associate() {
   DetallePago.associate();
   EstadoReserva.associate();
   Reserva.associate();
+  ReservaHabitacion.associate();
 }
 
 associate();
