@@ -12,6 +12,7 @@ import Cliente from "./cliente/migration";
 import Pago from "./pago/migration";
 import DetallePago from "./detalle-pago/migration";
 import EstadoReserva from "./estado-reserva/migration";
+import Reserva from "./reserva/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -49,5 +50,7 @@ import appConfig from "../config/app";
   await DetallePago.up(qi);
   console.log("------EstadoReserva------");
   await EstadoReserva.up(qi);
+  console.log("------Reserva------");
+  await Reserva.up(qi);
   console.log("------Tablas Creadas------");
 })();
