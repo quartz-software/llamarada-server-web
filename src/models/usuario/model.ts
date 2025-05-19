@@ -20,5 +20,8 @@ UsuarioModel.init(Attributes, {
   timestamps: false,
 });
 
+
+
+
 export { UsuarioModel };
 export default { UsuarioModel };
