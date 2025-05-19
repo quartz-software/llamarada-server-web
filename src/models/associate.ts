@@ -22,6 +22,7 @@ import Habitacion from "./habitacion/associate";
 import TipoHabitacion from "./tipo-habitacion/associate";
 import EstadoHabitacion from "./habitacion/associate";
 import TarifaHabitacion from "./tarifa-habitacion/associate";
+import Ocupacion from "./ocupacion/associate";
 
 function associate() {
   TipoRol.associate();
@@ -48,6 +49,7 @@ function associate() {
   TipoHabitacion.associate();
   EstadoHabitacion.associate();
   TarifaHabitacion.associate();
+  Ocupacion.associate();
 }
 
 associate();
