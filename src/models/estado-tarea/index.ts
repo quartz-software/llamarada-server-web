@@ -1,4 +1,4 @@
-import { EstadoTarea } from "../../types/estado-tarea";
+import { EstadoTarea } from "../../types/db/estado-tarea";
 
 export type Entity = EstadoTarea;
 export type Attributes = EstadoTarea;

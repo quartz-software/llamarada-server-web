@@ -1,4 +1,4 @@
-import { Tarea } from "../../types/tarea";
+import { Tarea } from "../../types/db/tarea";
 
 export type Entity = Tarea;
 export type Attributes = Tarea;

@@ -1,4 +1,4 @@
-import { ImagenHabitacion } from "../../types/imagen-habitacion";
+import { ImagenHabitacion } from "../../types/db/imagen-habitacion";
 
 export type Entity = ImagenHabitacion;
 export type Attributes = ImagenHabitacion;

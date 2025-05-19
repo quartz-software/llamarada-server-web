@@ -1,4 +1,4 @@
-import { ModificacionStock } from "../../types/modificacion-stock";
+import { ModificacionStock } from "../../types/db/modificacion-stock";
 
 export type Entity = ModificacionStock;
 export type Attributes = ModificacionStock;

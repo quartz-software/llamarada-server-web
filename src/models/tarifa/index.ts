@@ -1,4 +1,4 @@
-import { Tarifa } from "../../types/tarifa";
+import { Tarifa } from "../../types/db/tarifa";
 
 export type Entity = Tarifa;
 export type Attributes = Tarifa;

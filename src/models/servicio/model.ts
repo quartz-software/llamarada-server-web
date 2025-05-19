@@ -2,10 +2,10 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Habitacion } from "../../types/habitacion";
-import { PromocionServicio } from "../../types/promocion-servicio";
-import { ServicioSolicitado } from "../../types/servicio-solicitado";
-import { TipoServicio } from "../../types/tipo-servicio";
+import { Habitacion } from "../../types/db/habitacion";
+import { PromocionServicio } from "../../types/db/promocion-servicio";
+import { ServicioSolicitado } from "../../types/db/servicio-solicitado";
+import { TipoServicio } from "../../types/db/tipo-servicio";
 
 class ServicioModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;

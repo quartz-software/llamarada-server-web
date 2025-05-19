@@ -2,12 +2,12 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { EstadoEmpleado } from "../../types/estado-empleado";
-import { ModificacionStock } from "../../types/modificacion-stock";
-import { Reserva } from "../../types/reserva";
-import { Tarea } from "../../types/tarea";
-import { TipoRol } from "../../types/tipo-rol";
-import { Usuario } from "../../types/usuario";
+import { EstadoEmpleado } from "../../types/db/estado-empleado";
+import { ModificacionStock } from "../../types/db/modificacion-stock";
+import { Reserva } from "../../types/db/reserva";
+import { Tarea } from "../../types/db/tarea";
+import { TipoRol } from "../../types/db/tipo-rol";
+import { Usuario } from "../../types/db/usuario";
 
 class EmpleadoModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;

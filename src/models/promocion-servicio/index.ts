@@ -1,4 +1,4 @@
-import { PromocionServicio } from "../../types/promocion-servicio";
+import { PromocionServicio } from "../../types/db/promocion-servicio";
 
 export type Entity = PromocionServicio;
 export type Attributes = PromocionServicio;

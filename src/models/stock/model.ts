@@ -2,9 +2,9 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { CategoriaStock } from "../../types/categoria-stock";
-import { AbastecimientoStock } from "../../types/abastecimiento-stock";
-import { ModificacionStock } from "../../types/modificacion-stock";
+import { CategoriaStock } from "../../types/db/categoria-stock";
+import { AbastecimientoStock } from "../../types/db/abastecimiento-stock";
+import { ModificacionStock } from "../../types/db/modificacion-stock";
 
 class StockModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;

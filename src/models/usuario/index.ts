@@ -1,4 +1,4 @@
-import { Usuario } from "../../types/usuario";
+import { Usuario } from "../../types/db/usuario";
 
 export type Entity = Usuario;
 export type Attributes = Usuario;

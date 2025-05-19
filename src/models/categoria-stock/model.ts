@@ -2,7 +2,7 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Stock } from "../../types/stock";
+import { Stock } from "../../types/db/stock";
 
 class CategoriaStockModel
   extends Model<Attr, CreationAttributes>

@@ -1,4 +1,4 @@
-import { ReservaHabitacion } from "../../types/reserva-habitacion";
+import { ReservaHabitacion } from "../../types/db/reserva-habitacion";
 
 export type Entity = ReservaHabitacion;
 export type Attributes = ReservaHabitacion;

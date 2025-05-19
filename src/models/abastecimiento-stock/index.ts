@@ -1,4 +1,4 @@
-import { AbastecimientoStock } from "../../types/abastecimiento-stock";
+import { AbastecimientoStock } from "../../types/db/abastecimiento-stock";
 
 export type Entity = AbastecimientoStock;
 export type Attributes = AbastecimientoStock;

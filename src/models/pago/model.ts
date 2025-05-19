@@ -2,8 +2,8 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { DetallePago } from "../../types/detalle-pago";
-import { Reserva } from "../../types/reserva";
+import { DetallePago } from "../../types/db/detalle-pago";
+import { Reserva } from "../../types/db/reserva";
 
 class PagoModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;

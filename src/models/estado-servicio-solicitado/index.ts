@@ -1,4 +1,4 @@
-import { EstadoServicioSolicitado } from "../../types/estado-servicio-solicitado";
+import { EstadoServicioSolicitado } from "../../types/db/estado-servicio-solicitado";
 
 export type Entity = EstadoServicioSolicitado;
 export type Attributes = EstadoServicioSolicitado;

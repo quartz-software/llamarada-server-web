@@ -1,4 +1,4 @@
-import { EstadoReserva } from "../../types/estado-reserva";
+import { EstadoReserva } from "../../types/db/estado-reserva";
 
 export type Entity = EstadoReserva;
 export type Attributes = EstadoReserva;

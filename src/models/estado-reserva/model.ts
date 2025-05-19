@@ -2,7 +2,7 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Reserva } from "../../types/reserva";
+import { Reserva } from "../../types/db/reserva";
 
 class EstadoReservaModel
   extends Model<Attr, CreationAttributes>

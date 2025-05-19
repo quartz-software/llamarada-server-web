@@ -1,8 +1,8 @@
 import User from "../src/models/user";
-import Employee from "../src/models/employee";
+import { EmpleadoModel } from "../src/models/empleado/model";
 import { sequelize } from "../src/models/index";
 
-describe("Stock Model", () => {
+describe("Modelo empleado", () => {
   beforeAll(async () => {
     await sequelize.getQueryInterface().dropAllTables();
     await sequelize.sync();
@@ -25,14 +25,14 @@ describe("Stock Model", () => {
       address: "1234",
     });
     const d = new Date().toISOString();
-    await Employee.create({
+    await EmpleadoModel.create({
       role: "admin",
       status: "active",
       hireDate: d,
       userId: 1,
     });
 
-    const savedEmployee = await Employee.findOne({
+    const savedEmployee = await EmpleadoModel.findOne({
       where: { id: 1 },
       include: [{ model: User, as: "user" }],
     });

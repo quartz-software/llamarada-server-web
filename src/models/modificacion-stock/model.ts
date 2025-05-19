@@ -2,8 +2,8 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Empleado } from "../../types/empleado";
-import { Stock } from "../../types/stock";
+import { Empleado } from "../../types/db/empleado";
+import { Stock } from "../../types/db/stock";
 
 class ModificacionStockModel
   extends Model<Attr, CreationAttributes>

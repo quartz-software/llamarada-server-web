@@ -1,4 +1,4 @@
-import { TipoRol } from "../../types/tipo-rol";
+import { TipoRol } from "../../types/db/tipo-rol";
 
 export type Entity = TipoRol;
 export type Attributes = TipoRol;

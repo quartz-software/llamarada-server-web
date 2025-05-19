@@ -1,4 +1,4 @@
-import { Empleado } from "../../types/empleado";
+import { Empleado } from "../../types/db/empleado";
 
 export type Entity = Empleado;
 export type Attributes = Empleado;

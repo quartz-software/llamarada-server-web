@@ -1,4 +1,4 @@
-import { Cliente } from "../../types/cliente";
+import { Cliente } from "../../types/db/cliente";
 
 export type Entity = Cliente;
 export type Attributes = Cliente;

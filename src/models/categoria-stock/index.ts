@@ -1,4 +1,4 @@
-import { CategoriaStock } from "../../types/categoria-stock";
+import { CategoriaStock } from "../../types/db/categoria-stock";
 
 export type Entity = CategoriaStock;
 export type Attributes = CategoriaStock;

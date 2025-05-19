@@ -2,8 +2,8 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Cliente } from "../../types/cliente";
-import { Empleado } from "../../types/empleado";
+import { Cliente } from "../../types/db/cliente";
+import { Empleado } from "../../types/db/empleado";
 
 class UsuarioModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;
@@ -19,9 +19,6 @@ UsuarioModel.init(Attributes, {
   tableName: TableName,
   timestamps: false,
 });
-
-
-
 
 export { UsuarioModel };
 export default { UsuarioModel };

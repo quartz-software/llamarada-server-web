@@ -1,4 +1,4 @@
-import { DetallePago } from "../../types/detalle-pago";
+import { DetallePago } from "../../types/db/detalle-pago";
 
 export type Entity = DetallePago;
 export type Attributes = DetallePago;

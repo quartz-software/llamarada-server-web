@@ -2,7 +2,7 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Habitacion } from "../../types/habitacion";
+import { Habitacion } from "../../types/db/habitacion";
 
 class ImagenHabitacionModel
   extends Model<Attr, CreationAttributes>

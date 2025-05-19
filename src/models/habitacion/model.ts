@@ -2,14 +2,14 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { EstadoHabitacion } from "../../types/estado-habitacion";
-import { ImagenHabitacion } from "../../types/imagen-habitacion";
-import { Ocupacion } from "../../types/ocupacion";
-import { Reserva } from "../../types/reserva";
-import { Servicio } from "../../types/servicio";
-import { ServicioSolicitado } from "../../types/servicio-solicitado";
-import { Tarifa } from "../../types/tarifa";
-import { TipoHabitacion } from "../../types/tipo-habitacion";
+import { EstadoHabitacion } from "../../types/db/estado-habitacion";
+import { ImagenHabitacion } from "../../types/db/imagen-habitacion";
+import { Ocupacion } from "../../types/db/ocupacion";
+import { Reserva } from "../../types/db/reserva";
+import { Servicio } from "../../types/db/servicio";
+import { ServicioSolicitado } from "../../types/db/servicio-solicitado";
+import { Tarifa } from "../../types/db/tarifa";
+import { TipoHabitacion } from "../../types/db/tipo-habitacion";
 
 class HabitacionModel
   extends Model<Attr, CreationAttributes>

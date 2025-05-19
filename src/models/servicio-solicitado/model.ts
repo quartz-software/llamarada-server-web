@@ -2,11 +2,11 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Servicio } from "../../types/servicio";
-import { EstadoServicioSolicitado } from "../../types/estado-servicio-solicitado";
-import { Habitacion } from "../../types/habitacion";
-import { Reserva } from "../../types/reserva";
-import { Tarea } from "../../types/tarea";
+import { Servicio } from "../../types/db/servicio";
+import { EstadoServicioSolicitado } from "../../types/db/estado-servicio-solicitado";
+import { Habitacion } from "../../types/db/habitacion";
+import { Reserva } from "../../types/db/reserva";
+import { Tarea } from "../../types/db/tarea";
 
 class ServicioSolicitadoModel
   extends Model<Attr, CreationAttributes>

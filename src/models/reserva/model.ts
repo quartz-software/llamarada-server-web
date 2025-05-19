@@ -2,12 +2,12 @@ import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
 import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
-import { Cliente } from "../../types/cliente";
-import { Empleado } from "../../types/empleado";
-import { EstadoReserva } from "../../types/estado-reserva";
-import { Habitacion } from "../../types/habitacion";
-import { Pago } from "../../types/pago";
-import { ServicioSolicitado } from "../../types/servicio-solicitado";
+import { Cliente } from "../../types/db/cliente";
+import { Empleado } from "../../types/db/empleado";
+import { EstadoReserva } from "../../types/db/estado-reserva";
+import { Habitacion } from "../../types/db/habitacion";
+import { Pago } from "../../types/db/pago";
+import { ServicioSolicitado } from "../../types/db/servicio-solicitado";
 
 class ReservaModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;
