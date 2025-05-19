@@ -16,6 +16,7 @@ import Reserva from "./reserva/migration";
 import ReservaHabitacion from "./reserva-habitacion/migration";
 import ServicioSolicitado from "./servicio-solicitado/migration";
 import Servicio from "./servicio/migration";
+import PromocionServicio from "./promocion-servicio/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -61,5 +62,7 @@ import appConfig from "../config/app";
   await ServicioSolicitado.up(qi);
   console.log("------Servicio------");
   await Servicio.up(qi);
+  console.log("------PromocionServicio------");
+  await PromocionServicio.up(qi);
   console.log("------Tablas Creadas------");
 })();
