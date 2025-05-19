@@ -46,7 +46,7 @@ const Attributes: SequelizeModelAttributes<
     allowNull: false,
   },
   idEmpleado: {
-    type: DataTypes.DATE,
+    type: DataTypes.INTEGER,
     allowNull: true,
     onDelete: "RESTRICT",
     references: {
@@ -55,7 +55,7 @@ const Attributes: SequelizeModelAttributes<
     },
   },
   idEstado: {
-    type: DataTypes.DATE,
+    type: DataTypes.INTEGER,
     allowNull: true,
     onDelete: "RESTRICT",
     references: {
@@ -64,7 +64,7 @@ const Attributes: SequelizeModelAttributes<
     },
   },
   idCliente: {
-    type: DataTypes.DATE,
+    type: DataTypes.INTEGER,
     allowNull: true,
     onDelete: "RESTRICT",
     references: {
