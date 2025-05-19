@@ -59,7 +59,7 @@ import appConfig from "../config/app";
   await ReservaHabitacion.up(qi);
   console.log("------ServicioSolicitado------");
   await ServicioSolicitado.up(qi);
-  console.log("------ServicioSolicitado------");
+  console.log("------Servicio------");
   await Servicio.up(qi);
   console.log("------Tablas Creadas------");
 })();
