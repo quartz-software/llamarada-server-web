@@ -18,6 +18,7 @@ import Servicio from "./servicio/associate";
 import PromocionServicio from "./servicio/associate";
 import TipoServicio from "./tipo-servicio/associate";
 import ServicioHabitacion from "./servicio-habitacion/associate";
+import Habitacion from "./habitacion/associate";
 
 function associate() {
   TipoRol.associate();
@@ -40,6 +41,7 @@ function associate() {
   PromocionServicio.associate();
   TipoServicio.associate();
   ServicioHabitacion.associate();
+  Habitacion.associate();
 }
 
 associate();

@@ -1,0 +1,58 @@
+import { HabitacionModel } from "./model";
+import { EstadoHabitacionModel } from "../estado-habitacion/model";
+import { TipoHabitacionModel } from "../tipo-habitacion/model";
+import { ServicioSolicitadoModel } from "../servicio-solicitado/model";
+import { ServicioModel } from "../servicio/model";
+import { TarifaModel } from "../tarifa/model";
+import { OcupacionModel } from "../ocupacion/model";
+import { ImagenHabitacionModel } from "../imagen-habitacion/model";
+import { ReservaModel } from "../reserva/model";
+import { TarifaHabitacionModel } from "../tarifa-habitacion/model";
+import { ReservaHabitacionModel } from "../reserva-habitacion/model";
+
+const associate = () => {
+  HabitacionModel.belongsTo(EstadoHabitacionModel, {
+    foreignKey: "idEstadoHabitacion",
+    as: "estadoHabitacion",
+  });
+
+  HabitacionModel.belongsTo(TipoHabitacionModel, {
+    foreignKey: "idTipoHabitacion",
+    as: "tipoHabitacion",
+  });
+
+  HabitacionModel.hasMany(ServicioSolicitadoModel, {
+    foreignKey: "idHabitacion",
+    as: "serviciosSolicitados",
+  });
+
+  HabitacionModel.hasMany(ServicioModel, {
+    foreignKey: "idHabitacion",
+    as: "servicios",
+  });
+
+  HabitacionModel.belongsToMany(TarifaModel, {
+    foreignKey: "idHabitacion",
+    as: "tarifas",
+    through: TarifaHabitacionModel,
+  });
+
+  HabitacionModel.hasMany(OcupacionModel, {
+    foreignKey: "idHabitacion",
+    as: "ocupaciones",
+  });
+
+  HabitacionModel.hasOne(ImagenHabitacionModel, {
+    foreignKey: "idHabitacion",
+    as: "imagenHabitacion",
+  });
+
+  HabitacionModel.belongsToMany(ReservaModel, {
+    foreignKey: "idHabitacion",
+    as: "reservas",
+    through: ReservaHabitacionModel,
+  });
+};
+
+export { associate };
+export default { associate };
