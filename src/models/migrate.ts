@@ -23,6 +23,7 @@ import Habitacion from "./habitacion/migration";
 import TipoHabitacion from "./tipo-habitacion/migration";
 import EstadoHabitacion from "./estado-habitacion/migration";
 import TarifaHabitacion from "./tarifa-habitacion/migration";
+import Tarifa from "./tarifa/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -82,5 +83,7 @@ import appConfig from "../config/app";
   await EstadoHabitacion.up(qi);
   console.log("------TarifaHabitacion------");
   await TarifaHabitacion.up(qi);
+  console.log("------Tarifa------");
+  await Tarifa.up(qi);
   console.log("------Tablas Creadas------");
 })();
