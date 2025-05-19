@@ -15,6 +15,7 @@ import EstadoReserva from "./estado-reserva/migration";
 import Reserva from "./reserva/migration";
 import ReservaHabitacion from "./reserva-habitacion/migration";
 import ServicioSolicitado from "./servicio-solicitado/migration";
+import Servicio from "./servicio/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -58,5 +59,7 @@ import appConfig from "../config/app";
   await ReservaHabitacion.up(qi);
   console.log("------ServicioSolicitado------");
   await ServicioSolicitado.up(qi);
+  console.log("------ServicioSolicitado------");
+  await Servicio.up(qi);
   console.log("------Tablas Creadas------");
 })();

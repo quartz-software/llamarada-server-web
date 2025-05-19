@@ -14,6 +14,7 @@ import EstadoReserva from "./estado-reserva/associate";
 import Reserva from "./reserva/associate";
 import ReservaHabitacion from "./reserva-habitacion/associate";
 import ServicioSolicitado from "./servicio-solicitado/associate";
+import Servicio from "./servicio/associate";
 
 function associate() {
   TipoRol.associate();
@@ -32,6 +33,7 @@ function associate() {
   Reserva.associate();
   ReservaHabitacion.associate();
   ServicioSolicitado.associate();
+  Servicio.associate();
 }
 
 associate();
