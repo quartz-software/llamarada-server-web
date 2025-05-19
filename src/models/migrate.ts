@@ -18,6 +18,7 @@ import ServicioSolicitado from "./servicio-solicitado/migration";
 import Servicio from "./servicio/migration";
 import PromocionServicio from "./promocion-servicio/migration";
 import TipoServicio from "./tipo-servicio/migration";
+import ServicioHabitacion from "./servicio-habitacion/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -67,5 +68,7 @@ import appConfig from "../config/app";
   await PromocionServicio.up(qi);
   console.log("------TipoServicio------");
   await TipoServicio.up(qi);
+  console.log("------ServicioHabitacion------");
+  await ServicioHabitacion.up(qi);
   console.log("------Tablas Creadas------");
 })();
