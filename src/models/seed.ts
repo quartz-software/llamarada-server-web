@@ -53,5 +53,37 @@ import { sequelize } from "./index";
   await ReservaHabitacion.seed(qi);
   console.log("------ServicioSolicitado------");
   await ServicioSolicitado.seed(qi);
+
+  /*
+  // Orden para crear datos
+  console.log("------Usuario------");
+  console.log("------EstadoEmpleado------");
+  console.log("------TipoRol------");
+  console.log("------Empleado------");
+  console.log("------CategoriaStock------");
+  console.log("------Stock------");
+  console.log("------AbastecimientoStock------");
+  console.log("------ModificacionStock------");
+  console.log("------TipoServicio------");
+  console.log("------Servicio------");
+  console.log("------PromocionServicio------");
+  console.log("------Cliente------");
+  console.log("------EstadoReserva------");
+  console.log("------Reserva------");
+  console.log("------Pago------");
+  console.log("------DetallePago------");
+  console.log("------EstadoHabitacion------");
+  console.log("------TipoHabitacion------");
+  console.log("------Habitacion------");
+  console.log("------ReservaHabitacion------");
+  console.log("------ServicioHabitacion------");
+  console.log("------Tarifa------");
+  console.log("------TarifaHabitacion------");
+  console.log("------Ocupacion------");
+  console.log("------EstadoServicioSolicitado------");
+  console.log("------ServicioSolicitado------");
+  console.log("------EstadoTarea------");
+  console.log("------Tarea------");
+  */
   console.log("------Tablas llenadas------");
 })();
