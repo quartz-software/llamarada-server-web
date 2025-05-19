@@ -27,7 +27,7 @@ class ServicioModel extends Model<Attr, CreationAttributes> implements Entity {
 ServicioModel.init(Attributes, {
   sequelize,
   tableName: TableName,
-  timestamps: true,
+  timestamps: false,
 });
 
 export { ServicioModel };
