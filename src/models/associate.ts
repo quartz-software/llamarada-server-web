@@ -14,6 +14,7 @@ import EstadoReserva from "./estado-reserva/associate";
 import Reserva from "./reserva/associate";
 import ReservaHabitacion from "./reserva-habitacion/associate";
 import ServicioSolicitado from "./servicio-solicitado/associate";
+import EstadoServicioSolicitado from "./estado-servicio-solicitado/associate";
 import Servicio from "./servicio/associate";
 import PromocionServicio from "./servicio/associate";
 import TipoServicio from "./tipo-servicio/associate";
@@ -23,6 +24,7 @@ import TipoHabitacion from "./tipo-habitacion/associate";
 import EstadoHabitacion from "./habitacion/associate";
 import TarifaHabitacion from "./tarifa-habitacion/associate";
 import Ocupacion from "./ocupacion/associate";
+import ImagenHabitacion from "./imagen-habitacion/associate";
 
 function associate() {
   TipoRol.associate();
@@ -40,6 +42,7 @@ function associate() {
   EstadoReserva.associate();
   Reserva.associate();
   ReservaHabitacion.associate();
+  EstadoServicioSolicitado.associate();
   ServicioSolicitado.associate();
   Servicio.associate();
   PromocionServicio.associate();
@@ -50,6 +53,7 @@ function associate() {
   EstadoHabitacion.associate();
   TarifaHabitacion.associate();
   Ocupacion.associate();
+  ImagenHabitacion.associate();
 }
 
 associate();
