@@ -21,6 +21,7 @@ import TipoServicio from "./tipo-servicio/migration";
 import ServicioHabitacion from "./servicio-habitacion/migration";
 import Habitacion from "./habitacion/migration";
 import TipoHabitacion from "./tipo-habitacion/migration";
+import EstadoHabitacion from "./estado-habitacion/migration";
 import { sequelize } from "./index";
 import appConfig from "../config/app";
 (async () => {
@@ -76,5 +77,7 @@ import appConfig from "../config/app";
   await Habitacion.up(qi);
   console.log("------TipoHabitacion------");
   await TipoHabitacion.up(qi);
+  console.log("------EstadoHabitacion------");
+  await EstadoHabitacion.up(qi);
   console.log("------Tablas Creadas------");
 })();
