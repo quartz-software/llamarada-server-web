@@ -1,36 +1,27 @@
-import { models } from "../models/index.js";
-const { Employee } = models;
-import { validateToken } from "../utils/auth.js";
-import isEqual from "../utils/isEqual.js";
+import { NextFunction, Request, Response } from "express";
+import { validateToken } from "../utils/auth";
 
-/**
- *
- * @param {import("express").Request} req
- * @param {import("express").Response} res
- */
-export default async function (req, res, next) {
+export default async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const token =
       req.headers.authorization?.split(" ")[1] || req.cookies["token"];
-
-    if (token) {
-      let { id, role } = await validateToken(token);
-      req.user = { id, role };
-
-      if (req.user.role === "employee") {
-        const employee = await Employee.findOne({
-          where: {
-            userId: id,
-          },
-        });
-        req.user.role = employee.role;
-        if (!isEqual(employee.status, "active", "training"))
-          req.user = undefined;
-      }
+    if (!token) {
+      res.status(401).json({ message: "token requerido" });
+      return;
     }
+
+    let payload = await validateToken(token);
+    if (!payload) {
+      res.status(401).json({ message: "token invalido" });
+      return;
+    }
+    (req as any).user = payload;
     next();
   } catch (e) {
-    console.error("Error al validar el token:", e);
-    next();
+    next(e);
   }
 }

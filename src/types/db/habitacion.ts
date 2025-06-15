@@ -19,8 +19,8 @@ export interface Habitacion {
   servicios?: Servicio[];
   tarifas?: Tarifa[];
   ocupaciones?: Ocupacion[];
-  imagenHabitacion?: ImagenHabitacion;
-  tipoHabitacion?: TipoHabitacion;
-  estadoHabitacion?: EstadoHabitacion;
+  imagenes?: ImagenHabitacion[];
+  tipo?: TipoHabitacion;
+  estado?: EstadoHabitacion;
   reservas?: Reserva[];
 }

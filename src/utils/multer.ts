@@ -2,7 +2,7 @@ import multer from "multer";
 import { extname, join } from "path";
 import { v4 as uuidv4 } from "uuid";
 
-function configureMulter(subfolder) {
+function configureMulter(subfolder: string) {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       const uploadPath = join(process.cwd(), "uploads", subfolder);

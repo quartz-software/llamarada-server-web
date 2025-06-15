@@ -1,0 +1,33 @@
+import { Router } from "express";
+import auth from "./auth";
+import addservices from "./solicitud";
+import availabilities from "./availabilities";
+import bookings from "./reserva";
+import clients from "./cliente";
+import employees from "./empleado";
+import images from "./imagen";
+// import promotions from "./promotions";
+import rates from "./tarifa";
+import rooms from "./habitacion";
+import services from "./servicio";
+import stock from "./stock";
+import tasks from "./tarea";
+import authMiddleware from "../../middlewares/auth";
+const ApiRouter = Router();
+
+ApiRouter.use(authMiddleware);
+ApiRouter.use("/auth", auth);
+ApiRouter.use("/addservices", addservices);
+ApiRouter.use("/availabilities", availabilities);
+ApiRouter.use("/bookings", bookings);
+ApiRouter.use("/clients", clients);
+ApiRouter.use("/employees", employees);
+ApiRouter.use("/images", images);
+// ApiRouter.use("/promotions", promotions);
+ApiRouter.use("/rates", rates);
+ApiRouter.use("/rooms", rooms);
+ApiRouter.use("/services", services);
+ApiRouter.use("/stock", stock);
+ApiRouter.use("/tasks", tasks);
+
+export default ApiRouter;

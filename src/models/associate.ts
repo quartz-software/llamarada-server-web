@@ -16,12 +16,12 @@ import ReservaHabitacion from "./reserva-habitacion/associate";
 import ServicioSolicitado from "./servicio-solicitado/associate";
 import EstadoServicioSolicitado from "./estado-servicio-solicitado/associate";
 import Servicio from "./servicio/associate";
-import PromocionServicio from "./servicio/associate";
+import PromocionServicio from "./promocion-servicio/associate";
 import TipoServicio from "./tipo-servicio/associate";
 import ServicioHabitacion from "./servicio-habitacion/associate";
 import Habitacion from "./habitacion/associate";
 import TipoHabitacion from "./tipo-habitacion/associate";
-import EstadoHabitacion from "./habitacion/associate";
+import EstadoHabitacion from "./estado-habitacion/associate";
 import TarifaHabitacion from "./tarifa-habitacion/associate";
 import Ocupacion from "./ocupacion/associate";
 import ImagenHabitacion from "./imagen-habitacion/associate";
@@ -56,6 +56,5 @@ function associate() {
   ImagenHabitacion.associate();
 }
 
-associate();
 export { associate };
 export default associate;

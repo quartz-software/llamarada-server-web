@@ -3,13 +3,13 @@ import { EmpleadoModel } from "../empleado/model";
 import { UsuarioModel } from "./model";
 
 const associate = () => {
-  UsuarioModel.hasMany(EmpleadoModel, {
+  UsuarioModel.hasOne(EmpleadoModel, {
     foreignKey: "idUsuario",
-    as: "empleados",
+    as: "empleado",
   });
-  UsuarioModel.hasMany(ClienteModel, {
+  UsuarioModel.hasOne(ClienteModel, {
     foreignKey: "idUsuario",
-    as: "clientes",
+    as: "cliente",
   });
 };
 

@@ -34,4 +34,4 @@ ServicioSolicitadoModel.init(Attributes, {
 });
 
 export { ServicioSolicitadoModel };
-export default { ServicioSolicitadoModel };
+export default ServicioSolicitadoModel;

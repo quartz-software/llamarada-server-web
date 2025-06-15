@@ -25,9 +25,9 @@ class HabitacionModel
   declare servicios?: Servicio[] | undefined;
   declare tarifas?: Tarifa[] | undefined;
   declare ocupaciones?: Ocupacion[] | undefined;
-  declare imagenHabitacion?: ImagenHabitacion | undefined;
-  declare tipoHabitacion?: TipoHabitacion | undefined;
-  declare estadoHabitacion?: EstadoHabitacion | undefined;
+  declare imagenes?: ImagenHabitacion[] | undefined;
+  declare tipo?: TipoHabitacion | undefined;
+  declare estado?: EstadoHabitacion | undefined;
   declare reservas?: Reserva[] | undefined;
 }
 

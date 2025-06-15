@@ -10,8 +10,8 @@ class UsuarioModel extends Model<Attr, CreationAttributes> implements Entity {
   declare correo: string;
   declare password: string;
 
-  declare empleados?: Empleado[] | undefined;
-  declare clientes?: Cliente[] | undefined;
+  declare empleado?: Empleado | undefined;
+  declare cliente?: Cliente | undefined;
 }
 
 UsuarioModel.init(Attributes, {

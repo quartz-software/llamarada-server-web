@@ -6,6 +6,6 @@ export interface Usuario {
   correo: string;
   password: string;
 
-  empleados?: Empleado[];
-  clientes?: Cliente[];
+  empleado?: Empleado;
+  cliente?: Cliente;
 }

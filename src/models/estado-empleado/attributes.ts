@@ -14,7 +14,7 @@ const Attributes: SequelizeModelAttributes<
     allowNull: false,
   },
   nombre: {
-    type: DataTypes.TEXT,
+    type: DataTypes.ENUM("activo", "inactivo", "entrenamiento", "despedido"),
     allowNull: false,
   },
 };
