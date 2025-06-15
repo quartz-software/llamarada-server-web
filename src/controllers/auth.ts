@@ -3,6 +3,7 @@ import {
   createToken,
   encryptPassword,
   validateToken,
+  getUserRequest,
 } from "../utils/auth";
 import isEqual from "../utils/is-equal";
 import { NextFunction, Request, Response } from "express";
@@ -24,12 +25,12 @@ const AuthController = {
     // Devuelve el rol del empleado, esta restricto a empleados
     "/role": async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const user = (req as any).user;
+        const user = getUserRequest(req);
         const actUser = await UsuarioModel.findByPk(user.id, {
           include: {
             model: EmpleadoModel,
             as: "empleado",
-            attributes: [],
+            attributes: ["idRol"],
             include: [
               {
                 model: TipoRolModel,
@@ -39,7 +40,11 @@ const AuthController = {
             ],
           },
         });
-        res.status(200).json({ rol: actUser?.empleado?.rol?.nombre });
+        const rol = actUser?.cliente
+          ? "cliente"
+          : actUser?.empleado?.rol?.nombre;
+        if (!rol) throw new Error("El usuario no tiene rol");
+        res.status(200).json(rol);
       } catch (e) {
         next(e);
       }
@@ -135,11 +140,19 @@ const AuthController = {
         const user = await UsuarioModel.findOne({
           where: { correo: validate.data.correo },
         });
-
-        if (!user || !validatePassword(validate.data.password, user)) {
+        if (!user) {
           next({ status: 401 });
           return;
         }
+        const validPassword = await validatePassword(
+          validate.data.password,
+          user
+        );
+        if (!validPassword) {
+          next({ status: 401 });
+          return;
+        }
+
         const token = await createToken(user.id);
         res.cookie("token", token).status(200).json({ token: token });
       } catch (e) {
