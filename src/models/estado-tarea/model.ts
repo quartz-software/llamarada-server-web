@@ -9,7 +9,7 @@ class EstadoTareaModel
   implements Entity
 {
   declare id: number;
-  declare nombre: string;
+  declare nombre: "pendiente" | "en progreso" | "finalizado" | "cancelado";
   declare tareas?: Tarea[] | undefined;
 }
 
