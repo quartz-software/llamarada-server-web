@@ -31,8 +31,9 @@ import appConfig from "../config/app";
 (async () => {
   const qi = sequelize.getQueryInterface();
   if (appConfig.nodeEnv === "development") {
-    console.log("------Eliminando Tablas------");
-    await qi.dropAllTables();
+    console.log("------Eliminando el SCHEMA------");
+    await sequelize.query("DROP SCHEMA public CASCADE;");
+    await sequelize.query("CREATE SCHEMA public;");
   }
   console.log("------Creando Tablas------");
   console.log("------Usuario------");
