@@ -1,5 +1,6 @@
 import TipoRol from "./tipo-rol/associate";
 import EstadoEmpleado from "./estado-empleado/associate";
+import Empleado from "./empleado/associate";
 import Usuario from "./usuario/associate";
 import ModificacionStock from "./modificacion-stock/associate";
 import CategoriaStock from "./categoria-stock/associate";
@@ -27,6 +28,7 @@ import Ocupacion from "./ocupacion/associate";
 import ImagenHabitacion from "./imagen-habitacion/associate";
 
 function associate() {
+  Empleado.associate();
   TipoRol.associate();
   EstadoEmpleado.associate();
   Usuario.associate();

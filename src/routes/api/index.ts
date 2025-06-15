@@ -15,8 +15,8 @@ import tasks from "./tarea";
 import authMiddleware from "../../middlewares/auth";
 const ApiRouter = Router();
 
-ApiRouter.use(authMiddleware);
 ApiRouter.use("/auth", auth);
+ApiRouter.use(authMiddleware);
 ApiRouter.use("/addservices", addservices);
 ApiRouter.use("/availabilities", availabilities);
 ApiRouter.use("/bookings", bookings);
