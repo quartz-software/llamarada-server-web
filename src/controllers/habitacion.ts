@@ -30,7 +30,7 @@ const HabitacionController = {
           include: [
             {
               model: ImagenHabitacionModel,
-              as: "imagenHabitacion",
+              as: "imagenes",
             },
             {
               model: ReservaModel,
@@ -39,6 +39,7 @@ const HabitacionController = {
             },
           ],
         });
+        console.log(rooms);
         res.status(200).json(rooms);
       } catch (e) {
         next(e);

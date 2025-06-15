@@ -86,6 +86,6 @@ import { sequelize } from "./index";
   await EstadoTarea.seed(qi);
   console.log("------Tarea------");
   await Tarea.seed(qi);
-
   console.log("------Tablas llenadas------");
+  await sequelize.close();
 })();

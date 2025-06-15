@@ -92,4 +92,5 @@ import appConfig from "../config/app";
   console.log("------Tarea------");
   await Tarea.up(qi);
   console.log("------Tablas Creadas------");
+  await sequelize.close();
 })();
