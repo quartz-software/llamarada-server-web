@@ -14,7 +14,7 @@ const Attributes: SequelizeModelAttributes<
     allowNull: false,
   },
   nombre: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM("normal", "suite", "premium"),
     allowNull: false,
   },
 };

@@ -6,10 +6,12 @@ import { Habitacion } from "../../types/db/habitacion";
 
 class TipoHabitacionModel
   extends Model<Attr, CreationAttributes>
-  implements Entity
-{
+  implements Entity {
   declare id: number;
-  declare nombre: string;
+  declare nombre:
+    | "normal"
+    | "suite"
+    | "premium";
   declare habitaciones?: Habitacion[] | undefined;
 }
 
