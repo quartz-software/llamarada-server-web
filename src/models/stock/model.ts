@@ -10,6 +10,7 @@ class StockModel extends Model<Attr, CreationAttributes> implements Entity {
   declare id: number;
   declare nombre: string;
   declare cantidad: number;
+  declare precio: number;
   declare unidadMedida: string;
   declare idCategoria: number;
   declare categoria?: CategoriaStock[] | undefined;

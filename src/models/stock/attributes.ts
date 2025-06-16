@@ -21,6 +21,10 @@ const Attributes: SequelizeModelAttributes<
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  precio: {
+    type: DataTypes.DECIMAL(10, 4),
+    allowNull: false,
+  },
   unidadMedida: {
     type: DataTypes.TEXT,
     allowNull: false,
