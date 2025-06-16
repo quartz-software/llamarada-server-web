@@ -9,6 +9,7 @@ import {
   ServicioCreateSchema,
   ServicioUpdateSchema,
 } from "../schemas/models/servicio";
+import { getUserRequest } from "../utils/auth";
 
 const ServicioController = {
   get: {
@@ -19,24 +20,16 @@ const ServicioController = {
           next({ status: 400 });
           return;
         }
+        const user = getUserRequest(req);
+        const where: any = {};
+        if (!isEqual(user.rol, "administrador")) {
+          where.disponible = true;
+        }
         const options: FindOptions<Servicio> = {
           limit: limit.q,
           offset: limit.pid * limit.q,
-          where: {
-            disponible: true,
-          },
+          where: where,
         };
-        const user = (req as any).user;
-        if (!user) {
-          next({ status: 403 });
-          return;
-        }
-
-        if (!isEqual(user.rol, "admin")) {
-          options.where = {
-            disponible: false,
-          };
-        }
         let services = await ServicioModel.findAll(options);
 
         res.status(200).json(services.map((i) => i.toJSON()));
@@ -46,20 +39,23 @@ const ServicioController = {
     },
     "/:id": async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const user = (req as any).user;
         const validateId = IdParamsSchema.safeParse(Number(req.params.id));
         if (!validateId.success) {
           next({ status: 400 });
           return;
         }
-
-        const servicio = await ServicioModel.findByPk(validateId.data);
+        const user = getUserRequest(req);
+        const where: any = { id: validateId.data };
+        if (!isEqual(user.rol, "administrador")) {
+          where.disponible = true;
+        }
+        console.log(user.rol);
+        const options: FindOptions<Servicio> = {
+          where,
+        };
+        const servicio = await ServicioModel.findOne(options);
         if (!servicio) {
           next({ status: 404 });
-          return;
-        }
-        if (!servicio.disponible && !isEqual(user.role, "admin")) {
-          next({ status: 403 });
           return;
         }
 
