@@ -2,7 +2,7 @@ import { HabitacionModel } from "../models/habitacion/model";
 import { ImagenHabitacionModel } from "../models/imagen-habitacion/model";
 import { sequelize } from "../models/index";
 import { NextFunction, Request, Response } from "express";
-import { ReservaModel } from "../models/reserva/model";
+// import { ReservaModel } from "../models/reserva/model";
 import {
   HabitacionCreateSchema,
   HabitacionUpdateSchema,
@@ -23,11 +23,12 @@ const HabitacionController = {
           next({ status: 400 });
           return;
         }
+
         const rooms = await HabitacionModel.findAll({
           order: [["id", "ASC"]],
           limit: limit.q,
           offset: limit.q * limit.pid,
-          include: [
+          /* include: [
             {
               model: ImagenHabitacionModel,
               as: "imagenes",
@@ -37,9 +38,8 @@ const HabitacionController = {
               as: "reservas",
               through: { attributes: [] },
             },
-          ],
+          ], */
         });
-        console.log(rooms);
         res.status(200).json(rooms);
       } catch (e) {
         next(e);

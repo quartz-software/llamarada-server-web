@@ -3,7 +3,7 @@ import { EstadoHabitacionModel } from "./model";
 
 const associate = () => {
   EstadoHabitacionModel.hasMany(HabitacionModel, {
-    foreignKey: "idEstado",
+    foreignKey: "idEstadoHabitacion",
     as: "habitaciones",
   });
 };

@@ -9,6 +9,7 @@ import { ImagenHabitacionModel } from "../imagen-habitacion/model";
 import { ReservaModel } from "../reserva/model";
 import { TarifaHabitacionModel } from "../tarifa-habitacion/model";
 import { ReservaHabitacionModel } from "../reserva-habitacion/model";
+import { ServicioHabitacionModel } from "../servicio-habitacion/model";
 
 const associate = () => {
   HabitacionModel.belongsTo(EstadoHabitacionModel, {
@@ -26,9 +27,10 @@ const associate = () => {
     as: "serviciosSolicitados",
   });
 
-  HabitacionModel.hasMany(ServicioModel, {
+  HabitacionModel.belongsToMany(ServicioModel, {
     foreignKey: "idHabitacion",
-    as: "servicios",
+    as: "servicioa",
+    through: ServicioHabitacionModel,
   });
 
   HabitacionModel.belongsToMany(TarifaModel, {
