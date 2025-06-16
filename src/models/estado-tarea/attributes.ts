@@ -14,7 +14,7 @@ const Attributes: SequelizeModelAttributes<
     allowNull: false,
   },
   nombre: {
-    type: DataTypes.ENUM("activo", "pendiente", "finalizado", "cancelado"),
+    type: DataTypes.ENUM("pendiente", "en progreso", "finalizado", "cancelado"),
     allowNull: false,
   },
 };
