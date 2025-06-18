@@ -26,15 +26,17 @@ import EstadoHabitacion from "./estado-habitacion/migration";
 import TarifaHabitacion from "./tarifa-habitacion/migration";
 import Tarifa from "./tarifa/migration";
 import Ocupacion from "./ocupacion/migration";
+import EstadoPDI from "./imagen-pdi/migration";
+import ImagenPDI from "./estado-pdi/migration";
 import { sequelize } from "./index";
-import appConfig from "../config/app";
+// import appConfig from "../config/app";
 (async () => {
   const qi = sequelize.getQueryInterface();
-  if (appConfig.nodeEnv === "development") {
-    console.log("------Eliminando el SCHEMA------");
-    await sequelize.query("DROP SCHEMA public CASCADE;");
-    await sequelize.query("CREATE SCHEMA public;");
-  }
+  // if (appConfig.nodeEnv === "development") {
+  console.log("------Eliminando el SCHEMA------");
+  await sequelize.query("DROP SCHEMA public CASCADE;");
+  await sequelize.query("CREATE SCHEMA public;");
+  // }
   console.log("------Creando Tablas------");
   console.log("------Usuario------");
   await Usuario.up(qi);
@@ -74,6 +76,10 @@ import appConfig from "../config/app";
   await TipoHabitacion.up(qi);
   console.log("------Habitacion------");
   await Habitacion.up(qi);
+  console.log("------EstadoPDI------");
+  await EstadoPDI.up(qi);
+  console.log("------ImagenPDI------");
+  await ImagenPDI.up(qi);
   console.log("------ReservaHabitacion------");
   await ReservaHabitacion.up(qi);
   console.log("------ServicioHabitacion------");

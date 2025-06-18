@@ -26,6 +26,8 @@ import EstadoHabitacion from "./estado-habitacion/associate";
 import TarifaHabitacion from "./tarifa-habitacion/associate";
 import Ocupacion from "./ocupacion/associate";
 import ImagenHabitacion from "./imagen-habitacion/associate";
+import EstadoPDI from "./imagen-pdi/associate";
+import ImagenPDI from "./estado-pdi/associate";
 
 function associate() {
   Empleado.associate();
@@ -56,6 +58,8 @@ function associate() {
   TarifaHabitacion.associate();
   Ocupacion.associate();
   ImagenHabitacion.associate();
+  EstadoPDI.associate();
+  ImagenPDI.associate();
 }
 
 export { associate };
