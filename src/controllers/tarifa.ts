@@ -120,6 +120,27 @@ const TarifaController = {
           transaction,
         });
 
+        const relacionesExistentes = await TarifaHabitacionModel.findAll({
+          where: {
+            idTarifa: validateId.data,
+          },
+          transaction,
+        });
+
+        const idsExistentes = relacionesExistentes.map((r) => r.idHabitacion);
+
+        // Agregar nuevas relaciones que no existan
+        const nuevasRelaciones = validateData.data.rooms
+          .filter((idHabitacion: number) => !idsExistentes.includes(idHabitacion))
+          .map((idHabitacion: number) => ({
+            idTarifa: validateId.data,
+            idHabitacion,
+          }));
+
+        if (nuevasRelaciones.length > 0) {
+          await TarifaHabitacionModel.bulkCreate(nuevasRelaciones, { transaction });
+        }
+
         await transaction.commit();
         res.status(204).send();
       } catch (error) {

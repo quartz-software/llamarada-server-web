@@ -24,6 +24,7 @@ import Habitacion from "./habitacion/associate";
 import TipoHabitacion from "./tipo-habitacion/associate";
 import EstadoHabitacion from "./estado-habitacion/associate";
 import TarifaHabitacion from "./tarifa-habitacion/associate";
+import Tarifa from "./tarifa/associate";
 import Ocupacion from "./ocupacion/associate";
 import ImagenHabitacion from "./imagen-habitacion/associate";
 import EstadoPDI from "./imagen-pdi/associate";
@@ -56,6 +57,7 @@ function associate() {
   TipoHabitacion.associate();
   EstadoHabitacion.associate();
   TarifaHabitacion.associate();
+  Tarifa.associate();
   Ocupacion.associate();
   ImagenHabitacion.associate();
   EstadoPDI.associate();

@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const HabitacionCreateSchema = z.object({
   numeroHabitacion: z.string(),
-  capacidad: z.number(),
+  capacidad: z.coerce.number(),
   descripcion: z.string().optional(),
-  idEstadoHabitacion: z.number(),
-  idTipoHabitacion: z.number(),
+  idEstadoHabitacion: z.coerce.number(),
+  idTipoHabitacion: z.coerce.number(),
 });
 
 export const HabitacionUpdateSchema = HabitacionCreateSchema.partial();

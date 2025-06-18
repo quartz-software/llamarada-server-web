@@ -24,7 +24,7 @@ const calculateTotalPrice = async (
 ) => {
   const numOfDays =
     Math.floor(new Date(checkOut).getTime() - new Date(checkIn).getTime()) /
-      (1000 * 3600 * 24) +
+    (1000 * 3600 * 24) +
     1;
   const totalPrice = rooms.reduce(
     (total, room) => total + room.tarifas![0].precio * numOfDays,

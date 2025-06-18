@@ -12,6 +12,8 @@ import fs from "fs";
 import { getLimitParams } from "../utils/get-limit-params";
 import { IdParamsSchema } from "../schemas/common/param-id";
 import { Transaction } from "sequelize";
+import { TipoHabitacionModel } from "../models/tipo-habitacion/model";
+import { EstadoHabitacionModel } from "../models/estado-habitacion/model";
 
 const HabitacionController = {
   get: {
@@ -28,8 +30,18 @@ const HabitacionController = {
           order: [["id", "ASC"]],
           limit: limit.q,
           offset: limit.q * limit.pid,
-          /* include: [
+          include: [
             {
+              model: TipoHabitacionModel,
+              as: "tipo",
+              attributes: ["nombre"]
+            },
+            {
+              model: EstadoHabitacionModel,
+              as: "estado",
+              attributes: ["nombre"]
+            },
+            /* {
               model: ImagenHabitacionModel,
               as: "imagenes",
             },
@@ -37,8 +49,8 @@ const HabitacionController = {
               model: ReservaModel,
               as: "reservas",
               through: { attributes: [] },
-            },
-          ], */
+            }, */
+          ],
         });
         res.status(200).json(rooms);
       } catch (e) {
@@ -125,7 +137,7 @@ const HabitacionController = {
                   "images",
                   filename
                 );
-                return fs.unlink(filePath, () => {});
+                return fs.unlink(filePath, () => { });
               })
             );
           } catch (deleteError) {
@@ -221,7 +233,7 @@ const HabitacionController = {
                   "images",
                   filename
                 );
-                return fs.unlink(filePath, () => {});
+                return fs.unlink(filePath, () => { });
               })
             );
           } catch (deleteError) {
