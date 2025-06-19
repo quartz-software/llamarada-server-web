@@ -1,9 +1,9 @@
 import request from "supertest";
 import app from "../../app";
-import { ServicioModel } from "../../models/servicio/model";
 import { sequelize } from "../../models";
 import jwt from "jsonwebtoken";
 import appConfig from "../../config/app";
+import { HabitacionModel } from "../../models/habitacion/model";
 
 const ADMIN_TOKEN = jwt.sign(
   { rol: "administrador", id: 1 },
@@ -14,29 +14,42 @@ const USER_TOKEN = jwt.sign(
   appConfig.secret || "test_secret"
 );
 
-jest.mock("../../models/servicio/model");
+jest.mock("../../models/habitacion/model");
 
-const mockedModel = ServicioModel as jest.Mocked<typeof ServicioModel>;
+const mockedModel = HabitacionModel as jest.Mocked<typeof HabitacionModel>;
 
-describe.skip("ServicioController", () => {
+describe("HabitacionController", () => {
   beforeAll(async () => {
-    await sequelize.sync({ force: true });
+    await sequelize.authenticate();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe("GET /services", () => {
-    it("should return a list of available services for normal user", async () => {
+  describe.skip("GET /rooms", () => {
+    it("should return a list of available rooms for normal user", async () => {
       mockedModel.findAll.mockResolvedValue([
         {
-          toJSON: () => ({ id: 1, nombre: "Spa", disponible: true }),
+          toJSON: () => ({
+            id: 1,
+            numeroHabitacion: "102",
+            capacidad: 2,
+            descripcion: "",
+            idEstadoHabitacion: 1,
+            idTipoHabitacion: 1,
+            tipo: {
+              nombre: "normal"
+            },
+            estado: {
+              nombre: "disponible"
+            }
+          }),
         },
       ] as any);
 
       const res = await request(app)
-        .get("/api/services")
+        .get("/api/rooms")
         .set("Authorization", `Bearer ${USER_TOKEN}`);
 
       expect(res.status).toBe(200);
@@ -44,15 +57,28 @@ describe.skip("ServicioController", () => {
       expect(mockedModel.findAll).toHaveBeenCalled();
     });
 
-    it("should return all services for admin", async () => {
+    it("should return all rooms for admin", async () => {
       mockedModel.findAll.mockResolvedValue([
         {
-          toJSON: () => ({ id: 1, nombre: "Spa", disponible: false }),
+          toJSON: () => ({
+            id: 1,
+            numeroHabitacion: "102",
+            capacidad: 2,
+            descripcion: "",
+            idEstadoHabitacion: 1,
+            idTipoHabitacion: 1,
+            tipo: {
+              nombre: "normal"
+            },
+            estado: {
+              nombre: "disponible"
+            }
+          }),
         },
       ] as any);
 
       const res = await request(app)
-        .get("/api/services")
+        .get("/api/rooms")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`);
 
       expect(res.status).toBe(200);
@@ -62,29 +88,13 @@ describe.skip("ServicioController", () => {
     });
   });
 
-  describe("GET /services/:id", () => {
-    it("should return a specific available service for normal user", async () => {
-      mockedModel.findOne.mockResolvedValue({
-        toJSON: () => ({ id: 1, nombre: "Spa", disponible: true }),
-      } as any);
+  describe.skip("GET /rooms/:id", () => {
 
-      const res = await request(app)
-        .get("/api/services/1")
-        .set("Authorization", `Bearer ${USER_TOKEN}`);
-
-      expect(res.status).toBe(200);
-      expect(mockedModel.findOne).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({ id: 1, disponible: true }),
-        })
-      );
-    });
-
-    it("should return 404 if service not found", async () => {
+    it("should return 404 if room not found", async () => {
       mockedModel.findOne.mockResolvedValue(null);
 
       const res = await request(app)
-        .get("/api/services/999")
+        .get("/api/rooms/999")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`);
 
       expect(res.status).toBe(404);
@@ -92,33 +102,40 @@ describe.skip("ServicioController", () => {
 
     it("should return 400 for invalid id", async () => {
       const res = await request(app)
-        .get("/api/services/abc")
+        .get("/api/rooms/abc")
         .set("Authorization", `Bearer ${USER_TOKEN}`);
 
       expect(res.status).toBe(400);
     });
   });
 
-  describe("POST /services", () => {
-    it("should create a service with admin role", async () => {
-      const newService = { nombre: "Masaje", disponible: true };
+  describe("POST /rooms", () => {
+    it("should create a room with admin role", async () => {
+      const newRoom = {
+        numeroHabitacion: "118",
+        capacidad: 3,
+        descripcion: "",
+        idEstadoHabitacion: 1,
+        idTipoHabitacion: 1,
+        imagenes: []
+      };
 
       mockedModel.create.mockResolvedValue({
-        toJSON: () => ({ id: 2, ...newService }),
+        toJSON: () => ({ newRoom }),
       } as any);
 
       const res = await request(app)
-        .post("/api/services")
+        .post("/api/rooms")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`)
-        .send(newService);
+        .send(newRoom);
 
       expect(res.status).toBe(201);
-      expect(res.body.nombre).toBe("Masaje");
+      expect(res.body.numeroHabitacion).toBe("118");
     });
 
     it("should return 400 if invalid data", async () => {
       const res = await request(app)
-        .post("/api/services")
+        .post("/api/rooms")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`)
         .send({});
 
@@ -126,38 +143,38 @@ describe.skip("ServicioController", () => {
     });
   });
 
-  describe("PUT /services/:id", () => {
-    it("should update a service with valid data", async () => {
+  describe.skip("PUT /rooms/:id", () => {
+    it("should update a roooms with valid data", async () => {
       mockedModel.update.mockResolvedValue([1]);
 
       const res = await request(app)
-        .put("/api/services/1")
+        .put("/api/rooms/1")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`)
-        .send({ nombre: "Servicio actualizado" });
+        .send({ numeroHabitacion: "120" });
 
       expect(res.status).toBe(204);
       expect(mockedModel.update).toHaveBeenCalledWith(
-        { nombre: "Servicio actualizado" },
+        { nombre: "Habitacion actualizada" },
         { where: { id: "1" } }
       );
     });
 
     it("should return 400 for invalid input", async () => {
       const res = await request(app)
-        .put("/api/services/abc")
+        .put("/api/rooms/abc")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`)
-        .send({ nombre: "test" });
+        .send({ numeroHabitacion: 180 });
 
       expect(res.status).toBe(400);
     });
   });
 
-  describe("DELETE /services/:id", () => {
-    it("should delete a service", async () => {
+  describe.skip("DELETE /rooms/:id", () => {
+    it("should delete a rooms", async () => {
       mockedModel.destroy.mockResolvedValue(1);
 
       const res = await request(app)
-        .delete("/api/services/1")
+        .delete("/api/rooms/1")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`);
 
       expect(res.status).toBe(204);
@@ -166,7 +183,7 @@ describe.skip("ServicioController", () => {
 
     it("should return 400 for invalid ID", async () => {
       const res = await request(app)
-        .delete("/api/services/xyz")
+        .delete("/api/rooms/xyz")
         .set("Authorization", `Bearer ${ADMIN_TOKEN}`);
 
       expect(res.status).toBe(400);
