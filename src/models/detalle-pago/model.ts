@@ -1,13 +1,12 @@
 import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
-import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
+import { type Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
 import { Pago } from "../../types/db/pago";
 
 class DetallePagoModel
   extends Model<Attr, CreationAttributes>
-  implements Entity
-{
+  implements Entity {
   declare id: number;
   declare concepto: string;
   declare monto: number;

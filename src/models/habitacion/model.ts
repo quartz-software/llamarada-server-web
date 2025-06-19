@@ -1,7 +1,7 @@
 import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
-import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
+import { type Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
 import { EstadoHabitacion } from "../../types/db/estado-habitacion";
 import { ImagenHabitacion } from "../../types/db/imagen-habitacion";
 import { Ocupacion } from "../../types/db/ocupacion";
@@ -13,8 +13,7 @@ import { TipoHabitacion } from "../../types/db/tipo-habitacion";
 
 class HabitacionModel
   extends Model<Attr, CreationAttributes>
-  implements Entity
-{
+  implements Entity {
   declare id: number;
   declare numeroHabitacion: string;
   declare capacidad: number;

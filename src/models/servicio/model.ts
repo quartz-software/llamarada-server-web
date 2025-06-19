@@ -1,7 +1,7 @@
 import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
-import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
+import { type Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
 import { Habitacion } from "../../types/db/habitacion";
 import { PromocionServicio } from "../../types/db/promocion-servicio";
 import { ServicioSolicitado } from "../../types/db/servicio-solicitado";

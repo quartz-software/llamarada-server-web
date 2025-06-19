@@ -27,8 +27,8 @@ import TarifaHabitacion from "./tarifa-habitacion/migration";
 import ImagenHabitacion from "./imagen-habitacion/migration";
 import Tarifa from "./tarifa/migration";
 import Ocupacion from "./ocupacion/migration";
-import EstadoPDI from "./imagen-pdi/migration";
-import ImagenPDI from "./estado-pdi/migration";
+import EstadoPDI from "./estado-pdi/migration";
+import ImagenPDI from "./imagen-pdi/migration";
 import { sequelize } from "./index";
 // import appConfig from "../config/app";
 (async () => {

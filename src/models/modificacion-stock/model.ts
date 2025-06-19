@@ -1,14 +1,13 @@
 import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
-import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
+import { type Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
 import { Empleado } from "../../types/db/empleado";
 import { Stock } from "../../types/db/stock";
 
 class ModificacionStockModel
   extends Model<Attr, CreationAttributes>
-  implements Entity
-{
+  implements Entity {
   declare id: number;
   declare fecha: Date;
   declare cantidad: number;

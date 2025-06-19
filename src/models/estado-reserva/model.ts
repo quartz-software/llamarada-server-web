@@ -1,13 +1,12 @@
 import { Model } from "sequelize";
 import { sequelize } from "../index";
 import Attributes from "./attributes";
-import { Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
+import { type Attributes as Attr, CreationAttributes, Entity, TableName } from ".";
 import { Reserva } from "../../types/db/reserva";
 
 class EstadoReservaModel
   extends Model<Attr, CreationAttributes>
-  implements Entity
-{
+  implements Entity {
   declare id: number;
   declare nombre: "activo" | "pendiente" | "finalizado" | "cancelado";
   declare reservas?: Reserva[] | undefined;

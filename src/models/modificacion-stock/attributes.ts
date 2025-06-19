@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { SequelizeModelAttributes } from "../interfaces";
-import { Attributes, CreationAttributes, Entity } from ".";
+import { type Attributes, CreationAttributes, Entity } from ".";
 
 const Attributes: SequelizeModelAttributes<
   Entity,
