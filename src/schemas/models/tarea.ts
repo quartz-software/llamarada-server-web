@@ -8,7 +8,6 @@ export const TareaCreateSchema = z.object({
   observaciones: z.string().optional(),
   fechaInicio: z.coerce.date(),
   fechaCompletado: z.coerce.date().optional(),
-  createdAt: z.coerce.date(),
 });
 
 export const TareaUpdateSchema = TareaCreateSchema.partial();
