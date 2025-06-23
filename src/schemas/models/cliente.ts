@@ -8,7 +8,6 @@ export const ClienteCreateSchema = z.object({
   apellido2: z.string().optional(),
   telefono: z.string().optional(),
   pais: z.string(),
-  idUsuario: z.number(),
 });
 
 export const ClienteUpdateSchema = ClienteCreateSchema.partial();

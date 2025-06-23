@@ -8,6 +8,7 @@ import { UsuarioModel } from "../models/usuario/model";
 import { ClienteModel } from "../models/cliente/model";
 import { EmpleadoModel } from "../models/empleado/model";
 import { TipoRolModel } from "../models/tipo-rol/model";
+import { EstadoEmpleadoModel } from "../models/estado-empleado/model";
 
 interface UserRequest {
   id: number;
@@ -44,10 +45,17 @@ async function createToken(userId: number): Promise<string> {
       {
         model: EmpleadoModel,
         as: "empleado",
+        attributes: ["idEstado", "idRol"],
         include: [
+          {
+            model: EstadoEmpleadoModel,
+            as: "estado",
+            attributes: ["nombre"],
+          },
           {
             model: TipoRolModel,
             as: "rol",
+            attributes: ["nombre"],
           },
         ],
       },

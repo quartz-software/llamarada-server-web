@@ -19,7 +19,6 @@ import { ClienteCreateSchema } from "../schemas/models/cliente";
 import { Transaction } from "sequelize";
 import sequelize from "../models";
 
-const ClientePublicSchema = ClienteCreateSchema.omit({ idUsuario: true });
 const AuthController = {
   get: {
     // Devuelve el rol del empleado, esta restricto a empleados
@@ -27,23 +26,30 @@ const AuthController = {
       try {
         const user = getUserRequest(req);
         const actUser = await UsuarioModel.findByPk(user.id, {
-          include: {
-            model: EmpleadoModel,
-            as: "empleado",
-            attributes: ["idRol"],
-            include: [
-              {
-                model: TipoRolModel,
-                attributes: ["nombre"],
-                as: "rol",
-              },
-            ],
-          },
+          include: [
+            {
+              model: EmpleadoModel,
+              as: "empleado",
+              attributes: ["idRol"],
+              include: [
+                {
+                  model: TipoRolModel,
+                  attributes: ["nombre"],
+                  as: "rol",
+                },
+              ],
+            },
+            {
+              model: ClienteModel,
+              as: "cliente",
+              attributes: ["id"],
+            },
+          ],
         });
         const rol = actUser?.cliente
           ? "cliente"
           : actUser?.empleado?.rol?.nombre;
-        if (!rol) throw new Error("El usuario no tiene rol");
+        if (!rol) throw { status: 401 };
         res.status(200).json(rol);
       } catch (e) {
         next(e);
@@ -90,7 +96,7 @@ const AuthController = {
       try {
         transaction = await sequelize.transaction();
         let validateUsuario = UsuarioCreateSchema.safeParse(req.body.usuario);
-        let validateCliente = ClientePublicSchema.safeParse(req.body.cliente);
+        let validateCliente = ClienteCreateSchema.safeParse(req.body.cliente);
         if (!validateUsuario.success || !validateCliente.success) {
           throw { status: 400 };
         }

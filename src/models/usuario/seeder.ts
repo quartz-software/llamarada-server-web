@@ -21,6 +21,10 @@ const seed = async (qi: QueryInterface) => {
       correo: "mant1@email.com",
       password: await encryptPassword("mant1pass"),
     },
+    {
+      correo: "clien1@email.com",
+      password: await encryptPassword("clien1pass"),
+    },
   ] as Usuario[]);
 };
 
