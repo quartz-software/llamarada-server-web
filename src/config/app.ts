@@ -1,9 +1,9 @@
 // @ts-ignore
-import env from "./env";
+import { envs } from "./env";
 
 const appConfig = {
-  port: process.env.PORT!,
-  secret: process.env.SECRET!,
+  port: envs.PORT!,
+  secret: envs.SECRET!,
 };
 
 export default appConfig;

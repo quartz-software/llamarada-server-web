@@ -1,4 +1,4 @@
-import env from "../src/config/env";
+import { env } from "../src/config/env";
 import { sequelize } from "../src/models"; // importa tu instancia de sequelize
 import { migrateDb } from "../src/models/migrate";
 import { seedDb } from "../src/models/seed";

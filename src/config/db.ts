@@ -1,11 +1,10 @@
 // @ts-ignore
-import env from "./env";
-
+import { envs } from "./env";
 const dbConfig = {
-  name: process.env.DB_NAME!,
-  user: process.env.DB_USER!,
-  pass: process.env.DB_PASS!,
-  host: process.env.DB_HOST!,
+  name: envs.DB_NAME!,
+  user: envs.DB_USER!,
+  pass: envs.DB_PASS!,
+  host: envs.DB_HOST!,
 };
 
 export default dbConfig;

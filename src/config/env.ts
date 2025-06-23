@@ -8,6 +8,7 @@ if (env === "dev" || env === "test") {
 } else {
   dotenv.config();
 }
+const envs = process.env;
 
-export default env;
-export { env };
+export default { env, envs };
+export { env, envs };
