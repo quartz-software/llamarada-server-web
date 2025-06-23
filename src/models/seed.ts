@@ -30,71 +30,57 @@ import EstadoServicioSolicitado from "./estado-servicio-solicitado/seeder";
 import ImagenPDI from "./imagen-pdi/seeder";
 import EstadoPDI from "./estado-pdi/seeder";
 import { sequelize } from "./index";
-(async () => {
+import { QueryInterface } from "sequelize";
+import { env } from "../config/env";
+const seedDb = async () => {
   const qi = sequelize.getQueryInterface();
 
-  console.log("------Usuario------");
-  await Usuario.seed(qi);
-  console.log("------EstadoEmpleado------");
-  await EstadoEmpleado.seed(qi);
-  console.log("------TipoRol------");
-  await TipoRol.seed(qi);
-  console.log("------Empleado------");
-  await Empleado.seed(qi);
-  console.log("------CategoriaStock------");
-  await CategoriaStock.seed(qi);
-  console.log("------Stock------");
-  await Stock.seed(qi);
-  console.log("------AbastecimientoStock------");
-  await AbastecimientoStock.seed(qi);
-  console.log("------ModificacionStock------");
-  await ModificacionStock.seed(qi);
-  console.log("------TipoServicio------");
-  await TipoServicio.seed(qi);
-  console.log("------Servicio------");
-  await Servicio.seed(qi);
-  console.log("------PromocionServicio------");
-  await PromocionServicio.seed(qi);
-  console.log("------Cliente------");
-  await Cliente.seed(qi);
-  console.log("------EstadoReserva------");
-  await EstadoReserva.seed(qi);
-  console.log("------Reserva------");
-  await Reserva.seed(qi);
-  console.log("------Pago------");
-  await Pago.seed(qi);
-  console.log("------DetallePago------");
-  await DetallePago.seed(qi);
-  console.log("------EstadoHabitacion------");
-  await EstadoHabitacion.seed(qi);
-  console.log("------TipoHabitacion------");
-  await TipoHabitacion.seed(qi);
-  console.log("------Habitacion------");
-  await Habitacion.seed(qi);
-  console.log("------ReservaHabitacion------");
-  await ReservaHabitacion.seed(qi);
-  console.log("------ImagenHabitacion------");
-  await ImagenHabitacion.seed(qi);
-  console.log("------ServicioHabitacion------");
-  await ServicioHabitacion.seed(qi);
-  console.log("------Tarifa------");
-  await Tarifa.seed(qi);
-  console.log("------TarifaHabitacion------");
-  await TarifaHabitacion.seed(qi);
-  console.log("------Ocupacion------");
-  await Ocupacion.seed(qi);
-  console.log("------EstadoServicioSolicitado------");
-  await EstadoServicioSolicitado.seed(qi);
-  console.log("------ServicioSolicitado------");
-  await ServicioSolicitado.seed(qi);
-  console.log("------EstadoTarea------");
-  await EstadoTarea.seed(qi);
-  console.log("------Tarea------");
-  await Tarea.seed(qi);
-  console.log("------EstadoPDI------");
-  await EstadoPDI.seed(qi);
-  console.log("------ImagenPDI------");
-  await ImagenPDI.seed(qi);
-  console.log("------Tablas llenadas------");
-  await sequelize.close();
-})();
+  type SeederTuple = [string, { seed: (qi: QueryInterface) => Promise<void> }];
+
+  const seeders: SeederTuple[] = [
+    ["Usuario", Usuario],
+    ["EstadoEmpleado", EstadoEmpleado],
+    ["TipoRol", TipoRol],
+    ["Empleado", Empleado],
+    ["CategoriaStock", CategoriaStock],
+    ["Stock", Stock],
+    ["AbastecimientoStock", AbastecimientoStock],
+    ["ModificacionStock", ModificacionStock],
+    ["TipoServicio", TipoServicio],
+    ["Servicio", Servicio],
+    ["PromocionServicio", PromocionServicio],
+    ["Cliente", Cliente],
+    ["EstadoReserva", EstadoReserva],
+    ["Reserva", Reserva],
+    ["Pago", Pago],
+    ["DetallePago", DetallePago],
+    ["EstadoHabitacion", EstadoHabitacion],
+    ["TipoHabitacion", TipoHabitacion],
+    ["Habitacion", Habitacion],
+    ["ReservaHabitacion", ReservaHabitacion],
+    ["ImagenHabitacion", ImagenHabitacion],
+    ["ServicioHabitacion", ServicioHabitacion],
+    ["Tarifa", Tarifa],
+    ["TarifaHabitacion", TarifaHabitacion],
+    ["Ocupacion", Ocupacion],
+    ["EstadoServicioSolicitado", EstadoServicioSolicitado],
+    ["ServicioSolicitado", ServicioSolicitado],
+    ["EstadoTarea", EstadoTarea],
+    ["Tarea", Tarea],
+    ["EstadoPDI", EstadoPDI],
+    ["ImagenPDI", ImagenPDI],
+  ];
+
+  // console.log("------Insertando datos por defecto------");
+
+  for (const [name, model] of seeders) {
+    if (env === "dev") {
+      console.log(`------${name}------`);
+    }
+    await model.seed(qi);
+  }
+
+  // console.log("------Tablas llenadas------");
+};
+
+export { seedDb };

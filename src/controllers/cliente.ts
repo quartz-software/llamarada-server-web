@@ -53,18 +53,20 @@ const ClienteController = {
       const transaction = await sequelize.transaction();
       try {
         const body = req.body;
-        const validateUser = UsuarioCreateSchema.safeParse(body.user);
-        const validateClient = ClienteCreateSchema.safeParse(body.client);
+        const validateUser = UsuarioCreateSchema.safeParse(body.usuario);
+        const validateClient = ClienteCreateSchema.safeParse(body.cliente);
         if (!validateUser.success || !validateClient.success) {
           throw { status: 400 };
         }
         const newUser = await UsuarioModel.create(validateUser.data);
-        validateClient.data.idUsuario = newUser.id;
-        const newClient = await ClienteModel.create(validateClient.data);
+        const newClient = await ClienteModel.create({
+          ...validateClient.data,
+          idUsuario: newUser.id,
+        });
         await transaction.commit();
         res
           .status(201)
-          .json({ client: newClient.toJSON(), user: newUser.toJSON() });
+          .json({ cliente: newClient.toJSON(), usuario: newUser.toJSON() });
       } catch (e) {
         await transaction.rollback();
         next(e);

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { env } from "../config/env";
 
 export const errorHandler = (
   err: any,
@@ -6,8 +7,9 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  // console.log(err);
-  // console.log(err.stack);
+  if (env === "dev") {
+    console.log(err);
+  }
   const status = err.status || 500;
   res.status(status);
   res.send();
