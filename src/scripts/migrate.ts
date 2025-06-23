@@ -3,7 +3,7 @@ import sequelize from "../models";
 import { migrateDb } from "../models/migrate";
 
 (async () => {
-  if (env === "dev") {
+  if (env === "dev" || env === "test") {
     console.log("------Eliminando el SCHEMA------");
     await sequelize.query("DROP SCHEMA public CASCADE;");
     await sequelize.query("CREATE SCHEMA public;");

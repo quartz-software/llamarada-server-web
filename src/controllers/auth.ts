@@ -19,7 +19,6 @@ import { ClienteCreateSchema } from "../schemas/models/cliente";
 import { Transaction } from "sequelize";
 import sequelize from "../models";
 
-const ClientePublicSchema = ClienteCreateSchema.omit({ idUsuario: true });
 const AuthController = {
   get: {
     // Devuelve el rol del empleado, esta restricto a empleados
@@ -97,7 +96,7 @@ const AuthController = {
       try {
         transaction = await sequelize.transaction();
         let validateUsuario = UsuarioCreateSchema.safeParse(req.body.usuario);
-        let validateCliente = ClientePublicSchema.safeParse(req.body.cliente);
+        let validateCliente = ClienteCreateSchema.safeParse(req.body.cliente);
         if (!validateUsuario.success || !validateCliente.success) {
           throw { status: 400 };
         }
