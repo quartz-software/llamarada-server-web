@@ -13,8 +13,7 @@ class ReservaHabitacionModel
 ReservaHabitacionModel.init(Attributes, {
   sequelize,
   tableName: TableName,
-  timestamps: true,
-  updatedAt: false,
+  timestamps: false,
 });
 
 export { ReservaHabitacionModel };

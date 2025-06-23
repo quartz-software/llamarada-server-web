@@ -15,6 +15,8 @@ import {
 } from "../schemas/models/reserva";
 import { ReservaHabitacionModel } from "../models/reserva-habitacion/model";
 import { ReservaHabitacion } from "../types/db/reserva-habitacion";
+import { TarifaModel } from "../models/tarifa/model";
+import { z } from "zod";
 
 const calculateTotalPrice = async (
   rooms: Habitacion[],
@@ -54,14 +56,11 @@ const validateBooking = async (
     );
   }
 
-  console.log(selectedRooms);
-
   // Validar si el número total de personas supera la capacidad de las habitaciones seleccionadas
   const totalCapacity = selectedRooms.reduce(
     (total, room) => total + room.capacidad,
     0
   );
-  console.log(totalCapacity);
   if (nAdults + nChild > totalCapacity) {
     throw new Error(
       "El número total de personas supera la capacidad de las habitaciones seleccionadas."
@@ -71,15 +70,15 @@ const validateBooking = async (
   // Validar si hay reservas pendientes en las fechas seleccionadas
   const conflictingReservations = await ReservaModel.findAll({
     where: {
-      checkIn: { $lte: new Date(checkOut) },
-      checkOut: { $gte: new Date(checkIn) },
+      checkIn: { [Op.lte]: new Date(checkOut) },
+      checkOut: { [Op.gte]: new Date(checkIn) },
       // TODO
       idEstado: 1,
     },
     include: {
       model: HabitacionModel,
       as: "habitaciones",
-      where: { id: selectedRooms.map((room) => room.id) },
+      where: { id: { [Op.in]: selectedRooms.map((room) => room.id) } },
     },
   });
 
@@ -192,20 +191,28 @@ const ReservaController = {
         }
 
         if (
-          !IsEqual((req as any).user.rol, "client", "recepcionist", "admin")
+          !IsEqual((req as any).user.rol, "cliente", "recepcionista", "administrador")
         ) {
           next({ status: 403, message: "" });
           return;
         }
 
-        const validate = ReservaCreateSchema.safeParse(req.body);
+        const validate = ReservaCreateSchema.extend({
+          rooms: z.array(z.number().int().positive()),
+        }).safeParse(req.body);
         if (!validate.success) {
+          console.log(validate.error);
+
           next({ status: 400, message: "" });
           return;
         }
 
         const selectedRooms = await HabitacionModel.findAll({
-          where: { id: 1 },
+          where: { id: { [Op.in]: validate.data.rooms } },
+          include: {
+            model: TarifaModel,
+            as: "tarifas"
+          }
         });
 
         if (!selectedRooms || selectedRooms.length === 0) {
@@ -229,9 +236,9 @@ const ReservaController = {
         );
 
         const booking = await ReservaModel.create({
-          idCliente: (req as any).user.id,
-          idEmpleado: 2,
-          origenReserva: (req as any).user.rol === "client" ? "web" : "system",
+          idCliente: (req as any).user.rol === "cliente" ? (req as any).user.id : validate.data.idCliente,
+          idEmpleado: (req as any).user.rol === "cliente" ? 1 : (req as any).user.id,
+          origenReserva: (req as any).user.rol === "cliente" ? "web" : "system",
           checkIn: validate.data.checkIn,
           checkOut: validate.data.checkOut,
           numNinos: validate.data.numNinos,
@@ -251,6 +258,8 @@ const ReservaController = {
 
         res.status(200).json(booking);
       } catch (error) {
+        console.log(error);
+
         next(error);
       }
     },
