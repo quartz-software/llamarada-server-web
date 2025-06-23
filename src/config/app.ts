@@ -1,8 +1,7 @@
-import dotenv from "dotenv";
-dotenv.config();
+// @ts-ignore
+import env from "./env";
 
 const appConfig = {
-  nodeEnv: process.env.NODE_ENV!,
   port: process.env.PORT!,
   secret: process.env.SECRET!,
 };

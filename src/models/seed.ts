@@ -30,9 +30,8 @@ import EstadoServicioSolicitado from "./estado-servicio-solicitado/seeder";
 import ImagenPDI from "./imagen-pdi/seeder";
 import EstadoPDI from "./estado-pdi/seeder";
 import { sequelize } from "./index";
-(async () => {
+const seedDb = async () => {
   const qi = sequelize.getQueryInterface();
-
   console.log("------Usuario------");
   await Usuario.seed(qi);
   console.log("------EstadoEmpleado------");
@@ -96,5 +95,6 @@ import { sequelize } from "./index";
   console.log("------ImagenPDI------");
   await ImagenPDI.seed(qi);
   console.log("------Tablas llenadas------");
-  await sequelize.close();
-})();
+};
+
+export { seedDb };

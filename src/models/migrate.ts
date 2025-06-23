@@ -30,14 +30,8 @@ import Ocupacion from "./ocupacion/migration";
 import EstadoPDI from "./estado-pdi/migration";
 import ImagenPDI from "./imagen-pdi/migration";
 import { sequelize } from "./index";
-// import appConfig from "../config/app";
-(async () => {
+const migrateDb = async () => {
   const qi = sequelize.getQueryInterface();
-  // if (appConfig.nodeEnv === "development") {
-  console.log("------Eliminando el SCHEMA------");
-  await sequelize.query("DROP SCHEMA public CASCADE;");
-  await sequelize.query("CREATE SCHEMA public;");
-  // }
   console.log("------Creando Tablas------");
   console.log("------Usuario------");
   await Usuario.up(qi);
@@ -102,5 +96,5 @@ import { sequelize } from "./index";
   console.log("------Tarea------");
   await Tarea.up(qi);
   console.log("------Tablas Creadas------");
-  await sequelize.close();
-})();
+};
+export { migrateDb };

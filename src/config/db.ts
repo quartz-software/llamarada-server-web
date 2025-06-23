@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
+// @ts-ignore
+import env from "./env";
 
 const dbConfig = {
   name: process.env.DB_NAME!,
