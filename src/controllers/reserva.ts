@@ -17,6 +17,8 @@ import { ReservaHabitacionModel } from "../models/reserva-habitacion/model";
 import { ReservaHabitacion } from "../types/db/reserva-habitacion";
 import { TarifaModel } from "../models/tarifa/model";
 import { z } from "zod";
+import { TipoHabitacionModel } from "../models/tipo-habitacion/model";
+import { EstadoHabitacionModel } from "../models/estado-habitacion/model";
 
 const calculateTotalPrice = async (
   rooms: Habitacion[],
@@ -109,6 +111,10 @@ const ReservaController = {
         const reservas = await ReservaModel.findAll({
           limit: limit.q,
           offset: limit.pid * limit.q,
+          include: {
+            model: HabitacionModel,
+            as: "habitaciones"
+          }
         });
         res.status(200).json(reservas);
       } catch (error) {
@@ -118,6 +124,10 @@ const ReservaController = {
     "/rooms": async (req: Request, res: Response, next: NextFunction) => {
       try {
         const validateDateParams = ParamDateSchema.safeParse(req.query);
+        if (!validateDateParams.success) {
+          next({ status: 400 });
+          return;
+        }
         const today = new Date();
         const start = validateDateParams.data?.startDate
           ? new Date(validateDateParams.data?.startDate)
@@ -136,25 +146,33 @@ const ReservaController = {
 
         const rooms = await HabitacionModel.findAll({
           order: [["id", "ASC"]],
-          include: { model: ImagenHabitacionModel, as: "imagenes" },
+          include: [
+            { model: ImagenHabitacionModel, as: "imagenes" },
+            {
+              model: TipoHabitacionModel,
+              as: "tipo",
+              attributes: ["nombre"]
+            },
+            {
+              model: EstadoHabitacionModel,
+              as: "estado",
+              attributes: ["nombre"]
+            },
+          ],
           where: {
             id: {
               [Op.notIn]: sequelize.literal(`
                 (
-                  SELECT DISTINCT "idReserva"
+                  SELECT DISTINCT br."idHabitacion"
                   FROM "reserva-habitacion" AS br
                   JOIN "reserva" AS b
                   ON br."idReserva" = b."id"
                   WHERE b."checkIn" < '${adjustedEnd.toISOString()}'
                   AND b."checkOut" > '${start.toISOString()}'
-                  AND (
-                    (b."checkIn" BETWEEN '${start.toISOString()}' AND '${adjustedEnd.toISOString()}') OR
-                    (b."checkOut" BETWEEN '${start.toISOString()}' AND '${adjustedEnd.toISOString()}') OR
-                    (b."checkIn" <= '${start.toISOString()}' AND b."checkOut" >= '${adjustedEnd.toISOString()}')
-                  )
-                )
-              `),
-            },
+                  AND b."idEstado" = 1
+                )`
+              ),
+            }
           },
         });
 
@@ -339,6 +357,11 @@ const ReservaController = {
       }
     },
   },
+};
+export const getAvailableRooms = async (req: Request, res: Response, next: NextFunction) => {
+  console.log("💥 LLEGÓ AL CONTROLADOR");
+  console.log(req.query);
+  res.json({ ok: true });
 };
 
 export default ReservaController;
