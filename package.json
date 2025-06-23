@@ -2,8 +2,8 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "seed": "ts-node ./src/scripts/seed.ts",
-    "migrate": "ts-node ./src/scripts/migrate.ts",
+    "seed": "cross-env NODE_ENV=dev ts-node ./src/scripts/seed.ts",
+    "migrate": "cross-env NODE_ENV=dev ts-node ./src/scripts/migrate.ts",
     "dev": "cross-env NODE_ENV=dev ts-node-dev ./src/index.ts",
     "test": "cross-env NODE_ENV=test jest",
     "pre:start": "node ./build/scripts/migrate.js && node ./build/scripts/seed.js",
