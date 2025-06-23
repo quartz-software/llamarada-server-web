@@ -1,4 +1,4 @@
-import env from "../config/env";
+import { env } from "../config/env";
 import sequelize from "../models";
 import { migrateDb } from "../models/migrate";
 

@@ -5,8 +5,10 @@ import ApiRouter from "./routes/api";
 import UploadRouter from "./routes/uploads/";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/error-handler";
-import env from "./config/env";
+import { env } from "./config/env";
+import associate from "./models/associate";
 
+associate();
 const app = Express();
 // @ts-ignore
 app.use(cookieParser());

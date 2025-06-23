@@ -30,71 +30,52 @@ import Ocupacion from "./ocupacion/migration";
 import EstadoPDI from "./estado-pdi/migration";
 import ImagenPDI from "./imagen-pdi/migration";
 import { sequelize } from "./index";
+import { QueryInterface } from "sequelize";
+import { env } from "../config/env";
 const migrateDb = async () => {
   const qi = sequelize.getQueryInterface();
-  console.log("------Creando Tablas------");
-  console.log("------Usuario------");
-  await Usuario.up(qi);
-  console.log("------EstadoEmpleado------");
-  await EstadoEmpleado.up(qi);
-  console.log("------TipoRol------");
-  await TipoRol.up(qi);
-  console.log("------Empleado------");
-  await Empleado.up(qi);
-  console.log("------CategoriaStock------");
-  await CategoriaStock.up(qi);
-  console.log("------Stock------");
-  await Stock.up(qi);
-  console.log("------AbastecimientoStock------");
-  await AbastecimientoStock.up(qi);
-  console.log("------ModificacionStock------");
-  await ModificacionStock.up(qi);
-  console.log("------TipoServicio------");
-  await TipoServicio.up(qi);
-  console.log("------Servicio------");
-  await Servicio.up(qi);
-  console.log("------PromocionServicio------");
-  await PromocionServicio.up(qi);
-  console.log("------Cliente------");
-  await Cliente.up(qi);
-  console.log("------EstadoReserva------");
-  await EstadoReserva.up(qi);
-  console.log("------Reserva------");
-  await Reserva.up(qi);
-  console.log("------Pago------");
-  await Pago.up(qi);
-  console.log("------DetallePago------");
-  await DetallePago.up(qi);
-  console.log("------EstadoHabitacion------");
-  await EstadoHabitacion.up(qi);
-  console.log("------TipoHabitacion------");
-  await TipoHabitacion.up(qi);
-  console.log("------Habitacion------");
-  await Habitacion.up(qi);
-  console.log("------EstadoPDI------");
-  await EstadoPDI.up(qi);
-  console.log("------ImagenPDI------");
-  await ImagenPDI.up(qi);
-  console.log("------ImagenHabitacion------");
-  await ImagenHabitacion.up(qi);
-  console.log("------ReservaHabitacion------");
-  await ReservaHabitacion.up(qi);
-  console.log("------ServicioHabitacion------");
-  await ServicioHabitacion.up(qi);
-  console.log("------Tarifa------");
-  await Tarifa.up(qi);
-  console.log("------TarifaHabitacion------");
-  await TarifaHabitacion.up(qi);
-  console.log("------Ocupacion------");
-  await Ocupacion.up(qi);
-  console.log("------EstadoServicioSolicitado------");
-  await EstadoServicioSolicitado.up(qi);
-  console.log("------ServicioSolicitado------");
-  await ServicioSolicitado.up(qi);
-  console.log("------EstadoTarea------");
-  await EstadoTarea.up(qi);
-  console.log("------Tarea------");
-  await Tarea.up(qi);
-  console.log("------Tablas Creadas------");
+  type MigrationTuple = [string, { up: (qi: QueryInterface) => Promise<void> }];
+  const migrations: MigrationTuple[] = [
+    ["Usuario", Usuario],
+    ["EstadoEmpleado", EstadoEmpleado],
+    ["TipoRol", TipoRol],
+    ["Empleado", Empleado],
+    ["CategoriaStock", CategoriaStock],
+    ["Stock", Stock],
+    ["AbastecimientoStock", AbastecimientoStock],
+    ["ModificacionStock", ModificacionStock],
+    ["TipoServicio", TipoServicio],
+    ["Servicio", Servicio],
+    ["PromocionServicio", PromocionServicio],
+    ["Cliente", Cliente],
+    ["EstadoReserva", EstadoReserva],
+    ["Reserva", Reserva],
+    ["Pago", Pago],
+    ["DetallePago", DetallePago],
+    ["EstadoHabitacion", EstadoHabitacion],
+    ["TipoHabitacion", TipoHabitacion],
+    ["Habitacion", Habitacion],
+    ["EstadoPDI", EstadoPDI],
+    ["ImagenPDI", ImagenPDI],
+    ["ImagenHabitacion", ImagenHabitacion],
+    ["ReservaHabitacion", ReservaHabitacion],
+    ["ServicioHabitacion", ServicioHabitacion],
+    ["Tarifa", Tarifa],
+    ["TarifaHabitacion", TarifaHabitacion],
+    ["Ocupacion", Ocupacion],
+    ["EstadoServicioSolicitado", EstadoServicioSolicitado],
+    ["ServicioSolicitado", ServicioSolicitado],
+    ["EstadoTarea", EstadoTarea],
+    ["Tarea", Tarea],
+  ];
+
+  // console.log("------Creando Tablas------");
+  for (const [name, model] of migrations) {
+    if (env === "dev") {
+      console.log(`------${name}------`);
+    }
+    await model.up(qi);
+  }
+  // console.log("------Tablas Creadas------");
 };
 export { migrateDb };

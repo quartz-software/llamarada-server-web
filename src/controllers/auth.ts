@@ -27,23 +27,30 @@ const AuthController = {
       try {
         const user = getUserRequest(req);
         const actUser = await UsuarioModel.findByPk(user.id, {
-          include: {
-            model: EmpleadoModel,
-            as: "empleado",
-            attributes: ["idRol"],
-            include: [
-              {
-                model: TipoRolModel,
-                attributes: ["nombre"],
-                as: "rol",
-              },
-            ],
-          },
+          include: [
+            {
+              model: EmpleadoModel,
+              as: "empleado",
+              attributes: ["idRol"],
+              include: [
+                {
+                  model: TipoRolModel,
+                  attributes: ["nombre"],
+                  as: "rol",
+                },
+              ],
+            },
+            {
+              model: ClienteModel,
+              as: "cliente",
+              attributes: ["id"],
+            },
+          ],
         });
         const rol = actUser?.cliente
           ? "cliente"
           : actUser?.empleado?.rol?.nombre;
-        if (!rol) throw new Error("El usuario no tiene rol");
+        if (!rol) throw { status: 401 };
         res.status(200).json(rol);
       } catch (e) {
         next(e);
