@@ -22,7 +22,7 @@ const Attributes: SequelizeModelAttributes<
     allowNull: false,
   },
   precio: {
-    type: DataTypes.DECIMAL(10, 4),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   unidadMedida: {
