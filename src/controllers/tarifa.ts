@@ -51,7 +51,10 @@ const TarifaController = {
           next({ status: 404 });
           return;
         }
-        res.status(200).json(tarifa.toJSON());
+        res.status(200).json({
+          ...tarifa.toJSON(),
+          habitaciones: tarifa.habitaciones?.map((h: any) => h.id) ?? [],
+        });
       } catch (error) {
         next(error);
       }
