@@ -18,7 +18,7 @@ const StockController = {
           offset: limit.pid * limit.q,
           order: [["id", "ASC"]],
         });
-        res.status(200).send(stock);
+        res.status(200).json(stock.map((i) => i.toJSON()));
       } catch (e) {
         next(e);
       }
