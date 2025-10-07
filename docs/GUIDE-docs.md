@@ -27,7 +27,7 @@ export function capitalize(str: string): string {
 ### Servicios
 
 ```ts
-import { User } from "../models/User";
+import { User } from "@/models/User";
 
 /**
   - Servicio de autenticación de usuario.
@@ -51,7 +51,7 @@ export class AuthService {
 
 ```ts
 import { Request, Response } from "express";
-import { UserService } from "../services/UserService";
+import { UserService } from "@/services/UserService";
 
 /**
  * - Controlador de usuarios.
@@ -236,7 +236,3 @@ Checklist obligatorio:
 - [ ] Modelos documentados con interfaces y `@typedef` cuando corresponda.
 - [ ] Swagger validado sin errores.
 - [ ] `npx jsdoc -c jsdoc.json` genera correctamente la documentación.
-
-```
-
-```

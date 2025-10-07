@@ -10,7 +10,7 @@ Define el flujo de trabajo, ramas, commits y Pull Requests para mantener un desa
 Se utiliza **Gitflow** con dos ramas principales:
 
 - `main` → Contiene código listo para producción.
-- `develop` → Contiene la versión estable en desarrollo.
+- `dev` → Contiene la versión estable en desarrollo.
 
 ---
 
@@ -22,14 +22,14 @@ Se utiliza **Gitflow** con dos ramas principales:
 - Debe partir de un **issue** en Jira/GitHub con descripción y criterios de aceptación.
 - Nombre de la rama: `feature/<descripcion>#<numero>`
   - Ejemplo: `feature/auth-login#152`
-- Parte siempre desde `develop`.
+- Parte siempre desde `dev`.
 
 ### Bugfix
 
-- Para corregir errores detectados en `develop`.
+- Para corregir errores detectados en `dev`.
 - Nombre de la rama: `bugfix/<descripcion>#<numero>`
   - Ejemplo: `bugfix/fix-login-validation#178`
-- Parte desde `develop`.
+- Parte desde `dev`.
 
 ### Hotfix
 
@@ -44,8 +44,8 @@ Se utiliza **Gitflow** con dos ramas principales:
 - Nombre de la rama: `release/<version>`
   - Ejemplo: `release/1.2.0`
 - No incluye número de issue.
-- Parte desde `develop`.
-- Merge final hacia `main` y `develop`.
+- Parte desde `dev`.
+- Merge final hacia `main` y `dev`.
 
 ---
 
@@ -69,7 +69,7 @@ chore → Tareas de mantenimiento o configuración.
 
 ## Pull Requests (PR)
 
-- Se crean desde la rama temporal hacia `develop`.
+- Se crean desde la rama temporal hacia `dev`.
 - Título del PR debe incluir el número de issue:
 
 ```bash
@@ -87,17 +87,17 @@ feat(auth-login#152): agregar endpoint de login con JWT
 
 | Tipo   | Rama base | Propósito                               |
 | ------ | --------- | --------------------------------------- |
-| Bugfix | develop   | Corregir errores en desarrollo          |
+| Bugfix | dev       | Corregir errores en desarrollo          |
 | Hotfix | main      | Corregir errores críticos en producción |
 
 ---
 
 ## Releases
 
-- Se crean a partir de `develop`.
+- Se crean a partir de `dev`.
 - Nombre de la rama: `release/<version>`
 - Ejemplo: `release/1.2.0`
-- Merge final hacia `main` y luego `develop`.
+- Merge final hacia `main` y luego `dev`.
 - Se asegura que todos los endpoints coincidan con la documentación y status codes.
 
 ---
@@ -107,8 +107,7 @@ feat(auth-login#152): agregar endpoint de login con JWT
 - Cada nueva feature debe estar respaldada por un **issue** en Jira o GitHub.
 - El issue debe incluir:
 - Descripción clara.
-- Criterios de aceptación.
-- La rama feature parte desde `develop` y sigue la convención de nombres.
+- La rama feature parte desde `dev` y sigue la convención de nombres.
 - Validar que cambios de endpoints correspondan con la documentación y status codes.
 
 ---
