@@ -1,0 +1,233 @@
+name: Construir y Publicar Imagen Docker
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Guardar clave privada en runner
+        run: |
+          mkdir -p ~/.oci
+          echo "${{ secrets.TF_PRIVATE_KEY }}" | tr -d '\r' > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem
+
+          cat <<EOF > ~/.oci/config
+          [DEFAULT]
+          user=${{ secrets.TF_USER_OCID }}
+          fingerprint=${{ secrets.TF_FINGERPRINT }}
+          key_file=/home/runner/.oci/oci_api_key.pem
+          tenancy=${{ secrets.TF_TENANCY_OCID }}
+          region=${{ secrets.TF_REGION }}
+          EOF
+          chmod 600 ~/.oci/config
+
+          export SUPPRESS_LABEL_WARNING=True
+          export OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING=True
+
+      - name: Instalar OCI CLI
+        run: |
+          bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)" -- --accept-all-defaults
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Obtener IP de instancia activa
+        id: get_vm_ip
+        run: |
+          INSTANCE_ID=$(oci compute instance list \
+            --compartment-id ${{ secrets.TF_COMPARTMENT_OCID }} \
+            --query "data[?\"display-name\"=='hotel-docker-vm' && \"lifecycle-state\"=='RUNNING'].id | [0]" \
+            --raw-output || echo "")
+
+          if [ -n "$INSTANCE_ID" ] && [ "$INSTANCE_ID" != "null" ]; then
+              # Obtener el VNIC principal de la instancia
+              VNIC_ID=$(oci compute vnic-attachment list \
+                --compartment-id ${{ secrets.TF_COMPARTMENT_OCID }} \
+                --instance-id $INSTANCE_ID \
+                --query "data[0].\"vnic-id\"" \
+                --raw-output || echo "")
+
+              # Obtener la IP pública del VNIC
+              PUBLIC_IP=$(oci network vnic get \
+                --vnic-id $VNIC_ID \
+                --query "data.\"public-ip\"" \
+                --raw-output || echo "")
+
+              echo "IP pública encontrada: $PUBLIC_IP"
+              echo "instance_exists=true" >> $GITHUB_OUTPUT
+              echo "public_ip=$PUBLIC_IP" >> $GITHUB_OUTPUT
+          else
+              echo "instance_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Terraform
+        if: steps.check_vm.outputs.instance_exists == 'false'
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.0
+          terraform_wrapper: false
+
+      - name: Crear terraform.tfvars
+        if: steps.check_vm.outputs.instance_exists == 'false'
+        working-directory: terraform
+        run: |
+          cat <<EOF > terraform.tfvars
+          tenancy_ocid = "${{ secrets.TF_TENANCY_OCID }}"
+          user_ocid = "${{ secrets.TF_USER_OCID }}"
+          fingerprint = "${{ secrets.TF_FINGERPRINT }}"
+          private_key_path = "~/.oci/oci_api_key.pem"
+          region = "${{ secrets.TF_REGION }}"
+          compartment_ocid = "${{ secrets.TF_COMPARTMENT_OCID }}"
+          subnet_id = "${{ secrets.TF_SUBNET_ID }}"
+          availability_domain = "${{ secrets.TF_AVAILABILITY_DOMAIN }}"
+          ubuntu_image = "${{ secrets.TF_UBUNTU_IMAGE }}"
+          ssh_public_key = "${{ secrets.TF_SSH_PUBLIC_KEY }}"
+          EOF
+
+      - name: Terraform Init & Apply
+        if: steps.check_vm.outputs.instance_exists == 'false'
+        id: terraform
+        working-directory: terraform
+        run: |
+          terraform init
+          terraform apply -auto-approve
+
+      - name: Esperar que el servidor esté listo
+        if: steps.check_vm.outputs.instance_exists == 'false'
+        run: sleep 30
+
+      - name: Definir IP final
+        id: final_ip
+        run: |
+          if [ "${{ steps.get_vm_ip.outputs.instance_exists }}" = "true" ]; then
+            echo "public_ip=${{ steps.get_vm_ip.outputs.public_ip }}" >> $GITHUB_OUTPUT
+          else
+            IP=$(terraform output -raw public_ip)
+            echo "public_ip=$IP" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Login DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_TOKEN}}
+
+      - name: Construir Imagen
+        run: docker build -t ${{secrets.DOCKER_USER}}/hotel-llamarada:latest .
+
+      - name: Publicar Imagen
+        run: docker push ${{secrets.DOCKER_USER}}/hotel-llamarada:latest
+
+      - name: Configurar SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+
+      - name: Copiar y ejecutar setup_vm.sh
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          source: setup_vm.sh
+          target: /tmp/
+
+      - name: Ejecutar setup_vm.sh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            chmod +x /tmp/setup_vm.sh
+            /tmp/setup_vm.sh ${{secrets.SSH_USER}}
+            rm /tmp/setup_vm.sh
+
+      - name: Copiar docker-compose.yml
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          source: docker-compose.yml
+          target: '/home/${{secrets.SSH_USER}}/deploy/'
+
+      - name: Crear archivo .env remoto
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            mkdir -p /home/${{secrets.SSH_USER}}/deploy
+            cat <<EOF > /home/${{secrets.SSH_USER}}/deploy/.env
+            NODE_ENV=production
+            DB_NAME=${{secrets.DB_NAME}}
+            DB_USER=${{secrets.DB_USER}}
+            DB_PASS=${{secrets.DB_PASS}}
+            DB_HOST=${{secrets.DB_HOST}}
+            DB_PORT=${{secrets.DB_PORT}}
+            SECRET=${{secrets.SECRET}}
+            # agrega aquí las demás variables necesarias
+            EOF
+
+      - name: Ejecutar Docker Compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            cd /home/${{secrets.SSH_USER}}/deploy
+            echo ${{secrets.DOCKER_TOKEN}} | docker login -u ${{secrets.DOCKER_USER}} --password-stdin
+            docker compose down
+            docker compose pull
+            docker compose up -d --force-recreate
+            docker logout
+      - name: Verificar base de datos y ejecutar migraciones si es necesario
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            cd /home/${{secrets.SSH_USER}}/deploy
+            source .env
+
+            echo "Verificando existencia de tabla 'habitacion' en ${DB_HOST}:${DB_PORT}/${DB_NAME}..."
+
+            # Comprobación usando psql
+            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME -tAc "SELECT to_regclass('public.habitacion');")
+
+            if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
+              echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
+              docker compose run --rm api npm run migrate:prod
+              docker compose run --rm api npm run seed:prod
+            else
+              echo "Tabla 'habitacion' encontrada. No se ejecutan migraciones."
+            fi
+
+      - name: Enviar correo con IP
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          from: ${{ secrets.EMAIL_USER }}
+          to: joelalejsanchez@gmail.com
+          subject: 'Resultado del despliegue Terraform'
+          body: |
+            Estado del job: ${{ job.status }}
+            IP pública de la VM:  ${{ steps.final_ip.outputs.public_ip }}

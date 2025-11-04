@@ -1,8 +1,11 @@
 import app from "./app";
 import appConfig from "./config/app";
-import sequelize from "./models";
+import { setupSwagger } from './config/swagger';
+import sequelize from './models';
 
 const port = appConfig.port;
+
+setupSwagger(app);
 
 app.listen(port, async () => {
   try {

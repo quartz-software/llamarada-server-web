@@ -4,12 +4,15 @@ const tsJestTransformCfg = createDefaultPreset().transform;
 
 /** @type {import("jest").Config} **/
 module.exports = {
-  testEnvironment: "node",
-  preset: "ts-jest",
+  testEnvironment: 'node',
+  preset: 'ts-jest',
   transform: {
     ...tsJestTransformCfg,
   },
-  transformIgnorePatterns: ["/node_modules/"],
-  globalSetup: "./jest/global-setup.ts",
-  globalTeardown: "./jest/global-teardown.ts",
+  testMatch: ['**/__tests__/**/*.test.ts'],
+  collectCoverageFrom: ['src/**/*.ts'],
+  coverageDirectory: 'coverage',
+  transformIgnorePatterns: ['/node_modules/'],
+  globalSetup: './jest/global-setup.ts',
+  globalTeardown: './jest/global-teardown.ts',
 };

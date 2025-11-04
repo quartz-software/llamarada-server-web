@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2016",                                  
+    "target": "es2016",
     "module": "Node16",
-    "moduleResolution": "nodenext",                      
-    "outDir": "./build",
-    "esModuleInterop": true,   
-    "forceConsistentCasingInFileNames": true,    
-    "strict": true,   
+    "moduleResolution": "nodenext",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "skipLibCheck": false,
     "noUnusedLocals": true,
     "noImplicitAny": true,

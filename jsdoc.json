@@ -1,0 +1,12 @@
+{
+  "source": {
+    "include": ["src"],
+    "includePattern": ".ts$"
+  },
+  "opts": {
+    "destination": "docs/jsdoc",
+    "recurse": true,
+    "template": "default"
+  },
+  "plugins": ["plugins/markdown"]
+}
