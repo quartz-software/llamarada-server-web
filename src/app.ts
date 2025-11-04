@@ -13,11 +13,7 @@ const app = Express();
 // @ts-ignore
 app.use(cookieParser());
 app.use(Express.json());
-const corsOptions = {
-  origin: ['http://localhost:5173'],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors({ origin: true, credentials: true }));
 app.use(Express.static(path.join(__dirname, "dist")));
 if (env === "dev") {
   app.use((req, res, next) => {
