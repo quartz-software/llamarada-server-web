@@ -4,7 +4,12 @@ import dbConfig from "../config/db";
 const sequelize = new Sequelize(dbConfig.name, dbConfig.user, dbConfig.pass, {
   dialect: 'postgres',
   host: dbConfig.host,
-  ssl: true,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
   logging: false,
 });
 
