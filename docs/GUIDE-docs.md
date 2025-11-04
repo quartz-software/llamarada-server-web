@@ -175,7 +175,7 @@ summary: Obtener todos los usuarios
 responses:
 "200":
 description: Lista de usuarios
-post:
+post: 
 summary: Crear un nuevo usuario
 responses:
 "201":
