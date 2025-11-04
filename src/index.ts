@@ -3,7 +3,7 @@ import appConfig from "./config/app";
 import { setupSwagger } from './config/swagger';
 import sequelize from './models';
 
-const port = appConfig.port;
+const port = appConfig.port || 3000;
 
 setupSwagger(app);
 
