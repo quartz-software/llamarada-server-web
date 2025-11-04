@@ -40,7 +40,7 @@ jobs:
         run: |
           INSTANCE_ID=$(oci compute instance list \
             --compartment-id ${{ secrets.TF_COMPARTMENT_OCID }} \
-            --query "data[?\"display-name\"=='hotel-docker-vm' && \"lifecycle-state\"=='RUNNING'].id | [0]" \
+            --query "data[?\"display-name\"=='hotel-llamarada' && \"lifecycle-state\"=='RUNNING'].id | [0]" \
             --raw-output || echo "")
 
           if [ -n "$INSTANCE_ID" ] && [ "$INSTANCE_ID" != "null" ]; then
