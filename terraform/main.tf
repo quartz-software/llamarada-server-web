@@ -5,7 +5,7 @@ resource "oci_core_instance" "ubuntu_vm" {
   availability_domain = var.availability_domain
   shape = "VM.Standard.E2.1.Micro"
   compartment_id = var.compartment_ocid
-  display_name = "ubuntu-docker-vm"
+  display_name = "hotel-llamarada"
 
   source_details {
     source_type = "image"
@@ -15,8 +15,8 @@ resource "oci_core_instance" "ubuntu_vm" {
   create_vnic_details {
     subnet_id = var.subnet_id
     assign_public_ip = true
-    display_name = "ubuntu-docker-vm-vnic"
-    hostname_label = "ubuntu-docker-vm"
+    display_name = "hotel-llamarada-vnic"
+    hostname_label = "hotel-llamarada"
   }
 
   metadata = {
