@@ -12,5 +12,5 @@ export const errorHandler = (
   }
   const status = err.status || 500;
   res.status(status);
-  res.send();
+  res.json({ message: err.message });
 };
