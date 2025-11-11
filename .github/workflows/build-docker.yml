@@ -102,6 +102,7 @@ jobs:
 
       - name: Definir IP final
         id: final_ip
+        working-directory: terraform
         run: |
           if [ "${{ steps.check_vm.outputs.instance_exists }}" = "true" ]; then
             echo "public_ip=${{ steps.check_vm.outputs.public_ip }}" >> $GITHUB_OUTPUT

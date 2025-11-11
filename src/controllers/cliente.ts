@@ -103,7 +103,7 @@ const ClienteController = {
           where: { id: validateId.data },
         });
         if (rows === 0) {
-          next({ status: 404 });
+          next({ status: 404, message: 'Univalle' });
           return;
         }
         res.status(204).send();
