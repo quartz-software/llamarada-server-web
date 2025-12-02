@@ -167,10 +167,10 @@ jobs:
             cd /home/${{secrets.SSH_USER}}
             source .env.test
 
-            echo "Verificando existencia de tabla 'habitacion' en ${DB_HOST}:${DB_PORT}/${DB_NAME}..."
+            echo "Verificando existencia de tabla 'habitacion' en ${DB_HOST}:${DB_PORT}/${DB_NAME_TEST}..."
 
             # Comprobación usando psql
-            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME -tAc "SELECT to_regclass('public.habitacion');")
+            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME_TEST -tAc "SELECT to_regclass('public.habitacion');")
 
             if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
               echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
