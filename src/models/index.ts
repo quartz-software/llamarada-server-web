@@ -6,7 +6,7 @@ let ssl: {
   require: true,
   rejectUnauthorized: false,
 } | undefined = undefined
-if (env.env === "prod") {
+if (env.env === "prod" || env.env === "test") {
   ssl = {
     require: true,
     rejectUnauthorized: false,
