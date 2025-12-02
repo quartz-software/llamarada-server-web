@@ -174,8 +174,8 @@ jobs:
 
             if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
               echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
-              docker compose run --rm api npm run migrate:prod
-              docker compose run --rm api npm run seed:prod
+              npm run migrate
+              npm run seed
             else
               echo "Tabla 'habitacion' encontrada. No se ejecutan migraciones."
             fi
