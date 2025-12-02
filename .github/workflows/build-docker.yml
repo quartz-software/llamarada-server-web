@@ -143,8 +143,7 @@ jobs:
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
-            mkdir -p /home/${{secrets.SSH_USER}}
-            cat <<EOF > /home/${{secrets.SSH_USER}}/.env.test
+            cat <<EOF > ./${{secrets.SSH_USER}}/.env.test
             NODE_ENV=test
             DB_NAME=${{secrets.DB_NAME_TEST}}
             DB_USER=${{secrets.DB_USER}}
@@ -164,7 +163,6 @@ jobs:
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
-            cd /home/${{secrets.SSH_USER}}
             source .env.test
 
             echo "Verificando existencia de la base de datos '${DB_NAME}'..."
