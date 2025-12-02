@@ -167,9 +167,20 @@ jobs:
             cd /home/${{secrets.SSH_USER}}
             source .env.test
 
-            echo "Verificando existencia de tabla 'habitacion' en ${DB_HOST}:${DB_PORT}/${DB_NAME_TEST}..."
+            echo "Verificando existencia de la base de datos '${DB_NAME_TEST}'..."
 
-            # Comprobación usando psql
+            DB_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME_TEST}';")
+
+            if [ "$DB_EXISTS" = "1" ]; then
+              echo "La base de datos '${DB_NAME_TEST}' existe."
+            else
+              echo "La base de datos '${DB_NAME_TEST}' NO existe. Creándola..."
+              PGPASSWORD=$DB_PASS createdb -h $DB_HOST -U $DB_USER ${DB_NAME_TEST}
+              echo "Base de datos creada exitosamente."
+            fi
+
+            echo "Verificando existencia de tabla 'habitacion' en ${DB_NAME_TEST}..."
+
             TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME_TEST -tAc "SELECT to_regclass('public.habitacion');")
 
             if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
@@ -179,6 +190,7 @@ jobs:
             else
               echo "Tabla 'habitacion' encontrada. No se ejecutan migraciones."
             fi
+
         
       - name: Test Project
         run: npm run test
