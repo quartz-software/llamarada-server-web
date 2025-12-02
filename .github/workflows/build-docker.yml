@@ -167,21 +167,21 @@ jobs:
             cd /home/${{secrets.SSH_USER}}
             source .env.test
 
-            echo "Verificando existencia de la base de datos '${DB_NAME_TEST}'..."
+            echo "Verificando existencia de la base de datos '${DB_NAME}'..."
 
-            DB_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME_TEST}';")
+            DB_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}';")
 
             if [ "$DB_EXISTS" = "1" ]; then
-              echo "La base de datos '${DB_NAME_TEST}' existe."
+              echo "La base de datos '${DB_NAME}' existe."
             else
-              echo "La base de datos '${DB_NAME_TEST}' NO existe. Creándola..."
-              PGPASSWORD=$DB_PASS createdb -h $DB_HOST -U $DB_USER ${DB_NAME_TEST}
+              echo "La base de datos '${DB_NAME}' NO existe. Creándola..."
+              PGPASSWORD=$DB_PASS createdb -h $DB_HOST -U $DB_USER ${DB_NAME}
               echo "Base de datos creada exitosamente."
             fi
 
-            echo "Verificando existencia de tabla 'habitacion' en ${DB_NAME_TEST}..."
+            echo "Verificando existencia de tabla 'habitacion' en ${DB_NAME}..."
 
-            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME_TEST -tAc "SELECT to_regclass('public.habitacion');")
+            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME -tAc "SELECT to_regclass('public.habitacion');")
 
             if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
               echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
