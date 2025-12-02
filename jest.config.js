@@ -9,7 +9,7 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
-  testMatch: ['**/__tests__/**/*.test.ts'],
+  testMatch: ['**/tests/**/*.test.ts'],
   collectCoverageFrom: ['src/**/*.ts'],
   coverageDirectory: 'coverage',
   transformIgnorePatterns: ['/node_modules/'],

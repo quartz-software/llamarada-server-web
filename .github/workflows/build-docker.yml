@@ -111,24 +111,6 @@ jobs:
             echo "public_ip=$IP" >> $GITHUB_OUTPUT
           fi
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build
-
-      - name: Login DockerHub
-        uses: docker/login-action@v3
-        with:
-          username: ${{secrets.DOCKER_USER}}
-          password: ${{secrets.DOCKER_TOKEN}}
-
-      - name: Construir Imagen
-        run: docker build -t ${{secrets.DOCKER_USER}}/hotel-llamarada:latest .
-
-      - name: Publicar Imagen
-        run: docker push ${{secrets.DOCKER_USER}}/hotel-llamarada:latest
-
       - name: Configurar SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -153,6 +135,68 @@ jobs:
             chmod +x /tmp/setup_vm.sh
             /tmp/setup_vm.sh ${{secrets.SSH_USER}}
             rm /tmp/setup_vm.sh
+
+      - name: Crear archivo .env remoto
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            mkdir -p /home/${{secrets.SSH_USER}}
+            cat <<EOF > /home/${{secrets.SSH_USER}}/.env.test
+            NODE_ENV=test
+            DB_NAME=${{secrets.DB_NAME_TEST}}
+            DB_USER=${{secrets.DB_USER}}
+            DB_PASS=${{secrets.DB_PASS}}
+            DB_HOST=${{secrets.DB_HOST}}
+            DB_PORT=${{secrets.DB_PORT}}
+            SECRET=${{secrets.SECRET}}
+            EOF
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Verificar base de datos y ejecutar migraciones si es necesario para testing
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            cd /home/${{secrets.SSH_USER}}
+            source .env.test
+
+            echo "Verificando existencia de tabla 'habitacion' en ${DB_HOST}:${DB_PORT}/${DB_NAME}..."
+
+            # Comprobación usando psql
+            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME -tAc "SELECT to_regclass('public.habitacion');")
+
+            if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
+              echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
+              docker compose run --rm api npm run migrate:prod
+              docker compose run --rm api npm run seed:prod
+            else
+              echo "Tabla 'habitacion' encontrada. No se ejecutan migraciones."
+            fi
+        
+      - name: Test Project
+        run: npm run test
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Login DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_TOKEN}}
+
+      - name: Construir Imagen
+        run: docker build -t ${{secrets.DOCKER_USER}}/hotel-llamarada:latest .
+
+      - name: Publicar Imagen
+        run: docker push ${{secrets.DOCKER_USER}}/hotel-llamarada:latest
 
       - name: Copiar docker-compose.yml
         uses: appleboy/scp-action@v0.1.3
@@ -179,7 +223,6 @@ jobs:
             DB_HOST=${{secrets.DB_HOST}}
             DB_PORT=${{secrets.DB_PORT}}
             SECRET=${{secrets.SECRET}}
-            # agrega aquí las demás variables necesarias
             EOF
 
       - name: Ejecutar Docker Compose

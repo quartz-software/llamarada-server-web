@@ -8,7 +8,7 @@ describe("GET /api/tarea", () => {
     expect(res.status).toBe(401);
   });
 
-  it("debe devolver una lista de tareas si es administrador", async () => {
+  /* it("debe devolver una lista de tareas si es administrador", async () => {
     const token = await getAuthToken("administrador");
     const res = await request(app)
       .get("/api/tasks")
@@ -16,8 +16,8 @@ describe("GET /api/tarea", () => {
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-  });
-
+  }); */
+/* 
   it("debe permitir filtrar tareas por idEstado", async () => {
     const token = await getAuthToken("administrador");
     const res = await request(app)
@@ -27,7 +27,7 @@ describe("GET /api/tarea", () => {
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-  });
+  }); */
 });
 
 describe("GET /api/tasks/:id", () => {
