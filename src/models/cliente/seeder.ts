@@ -4,9 +4,10 @@ import { CreationAttributes, TableName } from ".";
 const seed = async (qi: QueryInterface) => {
   const clientes: CreationAttributes[] = [
     {
-      nombre1: "asd",
-      apellido1: "asd",
-      dni: "123213",
+      nombre1: "Juan",
+      apellido1: "Perez",
+      apellido2: "Gomez",
+      dni: "1234567",
       idUsuario: 5,
       pais: "BO",
     },
