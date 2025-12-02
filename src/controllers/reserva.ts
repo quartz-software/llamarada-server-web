@@ -158,6 +158,11 @@ const ReservaController = {
               as: "estado",
               attributes: ["nombre"]
             },
+            {
+              model: TarifaModel,
+              as: "tarifas",
+              attributes: ["precio"]
+            },
           ],
           where: {
             id: {
