@@ -156,6 +156,40 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Verificar e instalar Node y npm en el servidor remoto
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Verificando Node.js..."
+
+            if command -v node >/dev/null 2>&1; then
+              echo "Node.js ya está instalado."
+            else
+              echo "Node.js NO está instalado. Instalando Node 18.x..."
+
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+
+            echo "Node.js version:"
+            node -v
+            echo "npm version:"
+            npm -v
+
+      - name: Instalar dependencias en el servidor remoto
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/${{secrets.SSH_USER}}/mi-api
+            npm install
+
+
       - name: Clonar o actualizar repo en servidor
         uses: appleboy/ssh-action@master
         with:
