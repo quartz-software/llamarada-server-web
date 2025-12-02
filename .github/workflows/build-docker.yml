@@ -277,7 +277,7 @@ jobs:
           script: |
             mkdir -p /home/${{secrets.SSH_USER}}/deploy
             cat <<EOF > /home/${{secrets.SSH_USER}}/deploy/.env
-            NODE_ENV=production
+            NODE_ENV=prod
             DB_NAME=${{secrets.DB_NAME}}
             DB_USER=${{secrets.DB_USER}}
             DB_PASS=${{secrets.DB_PASS}}
