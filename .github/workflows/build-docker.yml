@@ -143,7 +143,7 @@ jobs:
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
-            cat <<EOF > ./${{secrets.SSH_USER}}/.env.test
+            cat <<EOF > /home/${{secrets.SSH_USER}}/.env.test
             NODE_ENV=test
             DB_NAME=${{secrets.DB_NAME_TEST}}
             DB_USER=${{secrets.DB_USER}}
@@ -156,6 +156,22 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Clonar o actualizar repo en servidor
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.final_ip.outputs.public_ip }}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            cd /home/${{secrets.SSH_USER}}
+
+            if [ ! -d "mi-api" ]; then
+              git clone https://github.com/quartz-software/llamarada-server-web.git mi-api
+            else
+              cd mi-api
+              git pull origin main
+            fi
+
       - name: Verificar base de datos y ejecutar migraciones si es necesario para testing
         uses: appleboy/ssh-action@master
         with:
@@ -163,7 +179,8 @@ jobs:
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
-            source .env.test
+            cd /home/${{secrets.SSH_USER}}/mi-api
+            source /home/${{secrets.SSH_USER}}/.env.test
 
             echo "Verificando existencia de la base de datos '${DB_NAME}'..."
 
