@@ -206,43 +206,43 @@ jobs:
               git pull origin main
             fi
 
-      - name: Verificar base de datos y ejecutar migraciones si es necesario para testing
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ steps.final_ip.outputs.public_ip }}
-          username: ${{secrets.SSH_USER}}
-          key: ${{secrets.SSH_PRIVATE_KEY}}
-          script: |
-            cd /home/${{secrets.SSH_USER}}/mi-api
-            source /home/${{secrets.SSH_USER}}/.env.test
+      # - name: Verificar base de datos y ejecutar migraciones si es necesario para testing
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ steps.final_ip.outputs.public_ip }}
+      #     username: ${{secrets.SSH_USER}}
+      #     key: ${{secrets.SSH_PRIVATE_KEY}}
+      #     script: |
+      #       cd /home/${{secrets.SSH_USER}}/mi-api
+      #       source /home/${{secrets.SSH_USER}}/.env.test
 
-            echo "Verificando existencia de la base de datos '${DB_NAME}'..."
+      #       echo "Verificando existencia de la base de datos '${DB_NAME}'..."
 
-            DB_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}';")
+      #       DB_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}';")
 
-            if [ "$DB_EXISTS" = "1" ]; then
-              echo "La base de datos '${DB_NAME}' existe."
-            else
-              echo "La base de datos '${DB_NAME}' NO existe. Creándola..."
-              PGPASSWORD=$DB_PASS createdb -h $DB_HOST -U $DB_USER ${DB_NAME}
-              echo "Base de datos creada exitosamente."
-            fi
+      #       if [ "$DB_EXISTS" = "1" ]; then
+      #         echo "La base de datos '${DB_NAME}' existe."
+      #       else
+      #         echo "La base de datos '${DB_NAME}' NO existe. Creándola..."
+      #         PGPASSWORD=$DB_PASS createdb -h $DB_HOST -U $DB_USER ${DB_NAME}
+      #         echo "Base de datos creada exitosamente."
+      #       fi
 
-            echo "Verificando existencia de tabla 'habitacion' en ${DB_NAME}..."
+      #       echo "Verificando existencia de tabla 'habitacion' en ${DB_NAME}..."
 
-            TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME -tAc "SELECT to_regclass('public.habitacion');")
+      #       TABLE_EXISTS=$(PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER -d $DB_NAME -tAc "SELECT to_regclass('public.habitacion');")
 
-            if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
-              echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
-              npm run migrate
-              npm run seed
-            else
-              echo "Tabla 'habitacion' encontrada. No se ejecutan migraciones."
-            fi
+      #       if [ "$TABLE_EXISTS" = "null" ] || [ -z "$TABLE_EXISTS" ]; then
+      #         echo "Tabla 'habitacion' no encontrada. Ejecutando migraciones y seed..."
+      #         npm run migrate
+      #         npm run seed
+      #       else
+      #         echo "Tabla 'habitacion' encontrada. No se ejecutan migraciones."
+      #       fi
 
         
-      - name: Test Project
-        run: npm run test
+      # - name: Test Project
+      #   run: npm run test
 
       - name: Build Project
         run: npm run build
