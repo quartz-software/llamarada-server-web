@@ -2,8 +2,8 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "seed": "cross-env NODE_ENV=dev ts-node ./src/scripts/seed.ts",
-    "migrate": "cross-env NODE_ENV=dev ts-node ./src/scripts/migrate.ts",
+    "seed": "ts-node ./src/scripts/seed.ts",
+    "migrate": "ts-node ./src/scripts/migrate.ts",
     "migrate:prod": "cross-env NODE_ENV=production node ./dist/src/scripts/migrate.js",
     "seed:prod": "cross-env NODE_ENV=production node ./dist/src/scripts/seed.js",
     "dev": "cross-env NODE_ENV=dev ts-node-dev ./src/index.ts",
