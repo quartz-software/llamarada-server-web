@@ -8,6 +8,7 @@ router.get("/:id", ReservaController.get["/:id"]);
 router.post("/accept/:id", ReservaController.post["/accept/:id"]);
 router.post("/", ReservaController.post["/"]);
 router.put("/:id", ReservaController.put["/:id"]);
+router.put("/finished/:id", ReservaController.put["/finished/:id"]);
 router.delete("/:id", ReservaController.delete["/:id"]);
 
 export default router;
