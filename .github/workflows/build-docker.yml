@@ -29,6 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
       - name: Crear archivo .env.test
         run: |
           cat <<EOF > .env.test
@@ -37,7 +38,7 @@ jobs:
           DB_USER=test
           DB_PASS=test
           DB_HOST=localhost
-          DB_PORT=${{secrets.DB_PORT_TEST}}
+          DB_PORT=5432
           DB_SSL=false
           SECRET=${{secrets.SECRET}}
           EOF
