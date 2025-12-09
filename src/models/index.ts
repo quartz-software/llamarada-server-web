@@ -17,9 +17,7 @@ const sequelize = new Sequelize(dbConfig.name, dbConfig.user, dbConfig.pass, {
   dialect: 'postgres',
   host: dbConfig.host,
   logging: false,
-  dialectOptions: {
-    ssl: ssl,
-  },
+  dialectOptions: ssl ? { ssl } : {},
 });
 
 export { sequelize };
