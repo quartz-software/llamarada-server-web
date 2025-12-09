@@ -1,11 +1,12 @@
 // @ts-ignore
 import { envs } from './env';
 const dbConfig = {
-  name: String(envs.DB_NAME || ''),
-  user: String(envs.DB_USER || ''),
-  pass: String(envs.DB_PASS || ''),
-  host: String(envs.DB_HOST || ''),
-  ssl: String(envs.DB_SSL || ''),
+  name: String(process.env.DB_NAME || ''),
+  user: String(process.env.DB_USER || ''),
+  pass: String(process.env.DB_PASS || ''),
+  host: String(process.env.DB_HOST || ''),
+  ssl: String(process.env.DB_SSL || ''),
+  logging: false,
 };
 
 export default dbConfig;
