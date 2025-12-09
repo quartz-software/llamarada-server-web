@@ -169,14 +169,8 @@ jobs:
         with:
           ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
 
-      - name: Verificar archivos en el workspace
-        run: |
-          echo "Directorio actual:"
-          pwd
-          echo "Archivos en la raíz del workspace:"
-          ls -la $GITHUB_WORKSPACE
-          echo "Archivos en el repo (subcarpeta 'llamarada-server-web'):"
-          ls -la $GITHUB_WORKSPACE/llamarada-server-web
+      - name: Verificar setup_vm.sh antes de copiar
+        run: ls -la $GITHUB_WORKSPACE/setup_vm.sh
 
       - name: Copiar y ejecutar setup_vm.sh
         uses: appleboy/scp-action@v0.1.3
