@@ -177,6 +177,7 @@ jobs:
           key: ${{secrets.SSH_PRIVATE_KEY}}
           source: setup_vm.sh
           target: /tmp/
+        working-directory: ${{ github.workspace }}
 
       - name: Ejecutar setup_vm.sh
         uses: appleboy/ssh-action@master
