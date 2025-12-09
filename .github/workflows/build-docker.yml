@@ -42,6 +42,8 @@ jobs:
           DB_SSL=false
           SECRET=${{secrets.SECRET}}
           EOF
+
+      - name: Crear archivo .env.test
         run: |
           cat <<EOF > .env.test
           NODE_ENV=test
