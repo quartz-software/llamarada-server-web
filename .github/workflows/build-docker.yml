@@ -19,6 +19,7 @@ jobs:
           DB_PASS=${{secrets.DB_PASS_TEST}}
           DB_HOST=${{secrets.DB_HOST_TEST}}
           DB_PORT=${{secrets.DB_PORT_TEST}}
+          DB_SSL=${{secrets.DB_SSL}}
           SECRET=${{secrets.SECRET}}
           EOF
 
@@ -212,6 +213,7 @@ jobs:
             DB_PASS=${{secrets.DB_PASS}}
             DB_HOST=${{secrets.DB_HOST}}
             DB_PORT=${{secrets.DB_PORT}}
+            DB_SSL=${{secrets.DB_SSL}}
             SECRET=${{secrets.SECRET}}
             EOF
 
