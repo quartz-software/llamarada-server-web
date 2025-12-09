@@ -19,6 +19,7 @@ import { TarifaModel } from "../models/tarifa/model";
 import { z } from "zod";
 import { TipoHabitacionModel } from "../models/tipo-habitacion/model";
 import { EstadoHabitacionModel } from "../models/estado-habitacion/model";
+import { ClienteModel } from "../models/cliente/model";
 
 const calculateTotalPrice = async (
   rooms: Habitacion[],
@@ -38,6 +39,7 @@ const calculateTotalPrice = async (
 };
 
 const validateBooking = async (
+  idBooking: number | null,
   nAdults: number,
   nChild: number,
   checkIn: string,
@@ -76,6 +78,7 @@ const validateBooking = async (
       checkOut: { [Op.gte]: new Date(checkIn) },
       // TODO
       idEstado: 1,
+      ...(idBooking && { id: { [Op.ne]: idBooking } })
     },
     include: {
       model: HabitacionModel,
@@ -111,10 +114,17 @@ const ReservaController = {
         const reservas = await ReservaModel.findAll({
           limit: limit.q,
           offset: limit.pid * limit.q,
-          include: {
-            model: HabitacionModel,
-            as: "habitaciones"
-          }
+          include: [
+            {
+              model: HabitacionModel,
+              as: "habitaciones"
+            },
+            {
+              model: ClienteModel,
+              as: "cliente",
+              attributes: ["nombre1", "apellido1"]
+            },
+          ]
         });
         res.status(200).json(reservas);
       } catch (error) {
@@ -193,14 +203,40 @@ const ReservaController = {
           next({ status: 400, message: "" });
           return;
         }
-        const booking = await ReservaModel.findByPk(validateId.data);
+        const booking = await ReservaModel.findByPk(
+          validateId.data, {
+          include: [
+            {
+              model: HabitacionModel,
+              as: "habitaciones",
+              include: [
+                {
+                  model: EstadoHabitacionModel,
+                  as: "estado",
+                  attributes: ["nombre"]
+                },
+                {
+                  model: TipoHabitacionModel,
+                  as: "tipo",
+                  attributes: ["nombre"]
+                },
+              ]
+            },
+            {
+              model: ClienteModel,
+              as: "cliente",
+              attributes: ["nombre1", "nombre2", "apellido1", "apellido2"]
+            },
+          ]
+        });
+
         if (!booking) {
           next({ status: 404, message: "" });
           return;
         }
         res.status(200).json(booking);
       } catch (e) {
-        res.status(500).send();
+        res.status(500).json({ message: e }).send();
       }
     },
   },
@@ -244,6 +280,7 @@ const ReservaController = {
         }
 
         await validateBooking(
+          null,
           validate.data.numAdultos,
           validate.data.numNinos,
           validate.data.checkIn.toISOString(),
@@ -332,14 +369,59 @@ const ReservaController = {
     "/:id": async (req: Request, res: Response, next: NextFunction) => {
       try {
         const validateId = IdParamsSchema.safeParse(req.params.id);
-        const validate = ReservaUpdateSchema.safeParse(req.body);
+        const validate = ReservaUpdateSchema.extend({
+          rooms: z.array(z.number().int().positive()),
+        }).safeParse(req.body);
+
         if (!validateId.success || !validate.success) {
           next({ status: 400, message: "" });
           return;
         }
+
+        const selectedRooms = await HabitacionModel.findAll({
+          where: { id: { [Op.in]: validate.data.rooms } },
+          include: {
+            model: TarifaModel,
+            as: "tarifas"
+          }
+        });
+        if (!selectedRooms || selectedRooms.length === 0) {
+          next({ status: 400, message: "" });
+          return;
+        }
+        await validateBooking(
+          Number(req.params.id),
+          validate.data.numAdultos!,
+          validate.data.numNinos!,
+          validate.data.checkIn?.toISOString()!,
+          validate.data.checkOut?.toISOString()!,
+          selectedRooms
+        );
         await ReservaModel.update(validate.data, {
           where: { id: validateId.data },
         });
+        res.status(200).send();
+      } catch (error) {
+        next(error);
+      }
+    },
+    "/finished/:id": async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const validateId = IdParamsSchema.safeParse(req.params.id);
+
+        if (!validateId.success) {
+          next({ status: 400, message: "" });
+          return;
+        }
+        await ReservaModel.update(
+          {
+            idEstado: 3,
+            checkOutReal: new Date(),
+          },
+          {
+            where: { id: validateId.data },
+          }
+        );
         res.status(200).send();
       } catch (error) {
         next(error);
