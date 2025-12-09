@@ -193,7 +193,7 @@ jobs:
           script: |
             chmod +x $GITHUB_WORKSPACE/setup_vm.sh
             $GITHUB_WORKSPACE/setup_vm.sh ${{secrets.SSH_USER}}
-            rm $GITHUB_WORKSPACE/setup_vm.sh
+            rm /tmp/setup_vm.sh
 
   docker:
     needs: [test, terraform]
