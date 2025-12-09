@@ -170,7 +170,7 @@ jobs:
           ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
 
       - name: Verificar setup_vm.sh antes de copiar
-        run: ls -la $GITHUB_WORKSPACE/setup_vm.sh
+        run: ls -la $GITHUB_WORKSPACE/../setup_vm.sh
 
       - name: Copiar y ejecutar setup_vm.sh
         uses: appleboy/scp-action@v0.1.3
