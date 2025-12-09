@@ -70,6 +70,9 @@ jobs:
       public_ip: ${{ steps.final_ip.outputs.public_ip }}
       terraform_status: ${{ job.status }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Guardar clave privada en runner
         run: |
           mkdir -p ~/.oci
