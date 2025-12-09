@@ -16,7 +16,7 @@ if (dbConfig.ssl === 'true') {
 const sequelize = new Sequelize(dbConfig.name, dbConfig.user, dbConfig.pass, {
   dialect: 'postgres',
   host: dbConfig.host,
-  logging: false,
+  logging: true,
   dialectOptions: ssl ? { ssl } : {},
 });
 
