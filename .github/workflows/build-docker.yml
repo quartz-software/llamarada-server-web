@@ -181,7 +181,7 @@ jobs:
           host: ${{ steps.final_ip.outputs.public_ip }}
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
-          source: ${{ github.workspace }}/setup_vm.sh
+          source: $GITHUB_WORKSPACE/setup_vm.sh
           target: /tmp/
 
       - name: Ejecutar setup_vm.sh
@@ -191,9 +191,9 @@ jobs:
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
-            chmod +x /tmp/setup_vm.sh
-            /tmp/setup_vm.sh ${{secrets.SSH_USER}}
-            rm /tmp/setup_vm.sh
+            chmod +x $GITHUB_WORKSPACE/setup_vm.sh
+            $GITHUB_WORKSPACE/setup_vm.sh ${{secrets.SSH_USER}}
+            rm $GITHUB_WORKSPACE/setup_vm.sh
 
   docker:
     needs: [test, terraform]
