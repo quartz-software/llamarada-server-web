@@ -232,9 +232,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-          source: ${{ github.workspace }}/setup_vm.sh
-          target: /tmp/
-          
+
       - name: Copiar docker-compose.yml
         uses: appleboy/scp-action@v0.1.3
         with:
