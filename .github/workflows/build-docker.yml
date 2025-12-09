@@ -191,8 +191,9 @@ jobs:
           username: ${{secrets.SSH_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
-            chmod +x /tmp/setup_vm.sh
-            /tmp/setup_vm.sh ${{secrets.SSH_USER}}
+            chmod +x /tmp/github/workspace/setup_vm.sh
+            /tmp/github/workspace/setup_vm.sh ${{secrets.SSH_USER}}
+            rm /tmp/github/workspace/setup_vm.sh
 
   docker:
     needs: [test, terraform]
